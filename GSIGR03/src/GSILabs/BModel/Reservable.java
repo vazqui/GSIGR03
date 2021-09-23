@@ -10,7 +10,7 @@ import java.util.Calendar;
  * 
  * @author David Arbea
  */
- interface Reservable {
+public interface Reservable {
     
     
     
