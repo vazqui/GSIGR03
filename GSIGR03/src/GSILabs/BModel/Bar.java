@@ -14,7 +14,7 @@ import java.util.List;
  * @author GR03
  * @version 1.0
  */
-public class Bar extends Local {
+public class Bar extends Local implements Reservable{
     
     //Propiedades del Bar
     
