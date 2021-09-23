@@ -44,16 +44,7 @@ public class Review {
         this.fechaVisita = fechaVisita;
         this.valoracionCliente = valoracionCliente;
     }
-    
-    public static void main(String[] args) throws ParseException{
-        Review review = new Review(new Cliente(), new Local(), "22/12/2020", 5);
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
-        System.out.println("Local : " + review.local);
-        System.out.println("fechaVisita : " +  formato.parse(review.fechaVisita));
-        System.out.println("comentario : " + review.comentario);
-        System.out.println("valoracionCliente : " + review.valoracionCliente);
-        
-    }
+  
     
     public void setLocal(Local local) {
         this.local = local;

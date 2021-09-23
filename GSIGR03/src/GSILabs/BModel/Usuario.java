@@ -19,35 +19,13 @@ public class Usuario {
     public String password;
     public String fechaNacimiento;
 
-    //Obtiene el nick del usuario
-    public String getNick() {
-        return nick;
-    }
-    
-    //Establece el nick del usuario
-    public void setNick(String nick) {
+    //Constructor
+    public Usuario(String nick, String password, String fechaNacimiento) {
         this.nick = nick;
-    }
-    
-    //Obtiene la contraseña del usuario
-    public String getPassword() {
-        return password;
-    }
-
-    //Establece la contraseña del usuario
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    //Obtiene la fecha de nacimiento del usuario
-    public String getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    //Establece la fecha de nacimiento del usuario
-    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
     
     //Comprueba que la longitud del nick sea menor que 3
     public void comprobarLongitudNick (){

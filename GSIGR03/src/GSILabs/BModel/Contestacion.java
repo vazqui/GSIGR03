@@ -9,6 +9,8 @@ package GSILabs.BModel;
  *
  * @author alumno
  */
-public class Cliente extends Usuario{
-    
+class Contestacion {
+    public Review review;
+    public Propietario propietario;
+    public String fechaConstestacion;
 }
