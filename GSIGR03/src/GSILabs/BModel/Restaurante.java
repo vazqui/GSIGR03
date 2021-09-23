@@ -11,7 +11,7 @@ package GSILabs.BModel;
  * @author GR03
  * @version 1.0
  */
-public class Restaurante extends Local{
+public class Restaurante extends Local implements Reservable{
     
     //Propiedas del restaurante
     
