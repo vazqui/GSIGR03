@@ -9,8 +9,27 @@ package GSILabs.BModel;
  *
  * @author alumno
  */
-class Contestacion {
-    public Review review;
-    public Propietario propietario;
-    public String fechaConstestacion;
+public class Contestacion {
+
+    public Review r; //Review a la que se esta contestando
+    public Propietario p; //Usuario que esta respondiendo la review
+    public String respuesta; //La respuesta del dueño del local sobre la review
+
+    /**
+     * Constructor
+     *
+     * @param r
+     * @param p
+     * @param respuesta
+     */
+    public Contestacion(Review r, Propietario p, String respuesta) {
+        if (p.locales.contains(r.local)) {
+            this.r = r;
+            this.p = p;
+            this.respuesta = respuesta;
+        } else {
+            System.out.println("No se puede crear la contestacion. El local no pertenece al propietario.");
+        }
+    }
+
 }
