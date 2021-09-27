@@ -8,6 +8,7 @@ package GSILabs.BModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @author alumno
  */
 public class Usuario {
+
     public String nick;
     public String password;
     public String fechaNacimiento;
@@ -26,24 +28,52 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    
     //Comprueba que la longitud del nick sea menor que 3
-    public void comprobarLongitudNick (){
-        if (nick.length() < 3){
+    public void comprobarLongitudNick() {
+        if (nick.length() < 3) {
             System.out.println("ERROR el nombre debe tener minimo 3 caracteres");
         }
     }
-    
+
     //comprueba que los usuarios sean mayores de 14 años
-    public static void comprobarEdadUsuarios (String fecha){
+    public static void comprobarEdadUsuarios(String fecha) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        try{
-            int edad = (int) ((TimeUnit.DAYS.convert(((new Date()).getTime() - sdf.parse(fecha).getTime()),TimeUnit.MILLISECONDS))/365);
-            if (edad < 14){
+        try {
+            int edad = (int) ((TimeUnit.DAYS.convert(((new Date()).getTime() - sdf.parse(fecha).getTime()), TimeUnit.MILLISECONDS)) / 365);
+            if (edad < 14) {
                 System.out.println("ERROR el usuario debe tener mínimo 14 años");
             }
-        }catch(ParseException e){
+        } catch (ParseException e) {
             System.out.println("ERROR la fecha introducida no es correcta");
         }
-    }    
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (!Objects.equals(this.nick, other.nick)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "El usuario es " + nick;
+    }
 }

@@ -7,7 +7,9 @@
 package GSILabs.BModel;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 
 /**
@@ -22,32 +24,18 @@ public class Local {
     public String nombre;        //Nombre del local
     public String descripcion;   //Breve descripcion del local, no mas de 300 caracteres
     
-    public Direccion direccion;                     //Direccion del local
-    ArrayList<Local> locales = new ArrayList<>();   //Arraylist de locales 
-    List<Propietario> propietarios;                 //Lista con los propietarios que tiene el local
+    public Direccion direccion;                    //Direccion del local
+    public Set<Propietario> propietarios;                 //Lista con los propietarios que tiene el local
     
     //Constructor de la clase Local
     public Local(String nombre, String descripcion, String direccion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        if(ComprobarUbicacion(direccion)){
-            this.direccion = new Direccion(direccion);;
-            locales.add(this);
-            propietarios = new ArrayList<>();
-        }
-        else{
-            System.out.println("En esta direccion ya hay un local.");
-        }
+        this.direccion = new Direccion(direccion);
     }
     
     //Metodos de la clase Local
-    
-    
-    //Funcion para verificar que no hayan dos locales en la misma direccion
-    public boolean ComprobarUbicacion(String d){
-        return !locales.contains(d);    
-    }
-    
+        
     //Funcion para comprobar la longitud de la descripcion
     public void ComprobarDescripcion(String descripcion){
         if (descripcion.length() > 300){
@@ -62,7 +50,7 @@ public class Local {
      * Devuelve una lista con los propietarios del local
      * @return 
      */
-    public List<Propietario> getPropietarios() {
+    public Set<Propietario> getPropietarios() {
         return propietarios;
     }
     

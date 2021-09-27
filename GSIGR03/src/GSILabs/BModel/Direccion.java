@@ -5,6 +5,8 @@
  */
 package GSILabs.BModel;
 
+import java.util.Objects;
+
 /**
  *
  * @author alumno
@@ -19,9 +21,11 @@ public class Direccion {
     public String numero;        //Numero donde se ubica el local
 
     public Direccion(String direccion) {
-        /*
-        Dividir string y guardar los datos
-        */
+        String[] partes = direccion.split(", ");
+        localidad = partes[0];
+        provincia = partes[1];
+        calle = partes[2];
+        numero = partes[3];
     }
     
     //Constructor para la clase direccion
@@ -60,5 +64,10 @@ public class Direccion {
         return numero;
     }
 
+
+    @Override
+    public String toString(){
+        return this.localidad + ", " + this.provincia + ", " + this.calle + ", " + this.numero;
+    }
 
 }
