@@ -15,10 +15,10 @@ import java.util.Set;
  */
 public class BusinessData {
     
-    Set<Usuario> usuarios;
-    Set<Local> locales;
-    Set<Review> reviews;
-    Set<Reserva> reservas;
+    public Set<Usuario> usuarios;
+    public Set<Local> locales;
+    public Set<Review> reviews;
+    public Set<Reserva> reservas;
 
     public BusinessData() {
         this.usuarios = new HashSet<>();
