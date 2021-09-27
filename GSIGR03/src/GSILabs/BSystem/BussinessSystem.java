@@ -5,20 +5,13 @@
  */
 package GSILabs.BSystem;
 
-import GSILabs.BModel.Bar;
-import GSILabs.BModel.Cliente;
-import GSILabs.BModel.Contestacion;
-import GSILabs.BModel.Direccion;
-import GSILabs.BModel.Local;
-import GSILabs.BModel.Propietario;
-import GSILabs.BModel.Pub;
-import GSILabs.BModel.Reserva;
-import GSILabs.BModel.Reservable;
-import GSILabs.BModel.Restaurante;
-import GSILabs.BModel.Review;
-import GSILabs.BModel.Usuario;
+import GSILabs.BModel.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -26,16 +19,26 @@ import java.time.LocalTime;
  */
 public class BussinessSystem implements LeisureOffice {
     
+    Set<Usuario> usuarios;
+    Set<Local> locales;
+    Set<Review> reviews;
+
+    public BussinessSystem() {
+        this.usuarios = new HashSet<>();
+        this.locales = new HashSet<>();
+        this.reviews = new HashSet<>();
+    }
+       
     //**USUARIOS**//
     
     @Override
     public boolean nuevoUsuario(Usuario u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return usuarios.add(u);
     }
 
     @Override
     public boolean eliminaUsuario(Usuario u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
@@ -149,20 +152,20 @@ public class BussinessSystem implements LeisureOffice {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public boolean nuevaReserva(Cliente c, Reservable r, LocalDate ld, LocalTime lt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public boolean nuevaReserva(Cliente c, Reservable r, LocalDate ld, LocalTime lt) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     @Override
     public Reserva[] obtenerReservas(Cliente c) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Reserva[] obtenerReservas(Reservable r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public Reserva[] obtenerReservas(Reservable r) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     @Override
     public Reserva[] obtenerReservas(LocalDate ld) {
