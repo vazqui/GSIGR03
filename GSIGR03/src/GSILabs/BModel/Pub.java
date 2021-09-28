@@ -13,16 +13,27 @@ package GSILabs.BModel;
  */
 public class Pub extends Local{
 
-    //Propiedades del Pub
+    /** Propiedades **/
     
-    public String HoraApertura;     //Hora de apertura del Pub
-    public String HoraCierre;       //Hora de cierra del Pub
+    public String HoraApertura;         //Hora de apertura del Pub
+    public String HoraCierre;           //Hora de cierra del Pub
     
-    //Constructor
-    public Pub(String HoraApertura, String HoraCierre, String nombre, String descripcion, String direccion) {
-        super(nombre, descripcion, direccion);
+    /** Constructor
+     * 
+     * @param HoraApertura hora de apertura del pub
+     * @param HoraCierre hora de cierre del pub
+     * @param nombre nombre del pub
+     * @param direccion dirección del pub
+     */
+    
+    public Pub(String HoraApertura, String HoraCierre, String nombre, String direccion) {
+        super(nombre, direccion);
         this.HoraApertura = HoraApertura;
         this.HoraCierre = HoraCierre;
+    }
+    
+    public String getNombre() {
+        return nombre;
     }
    
 

@@ -1,62 +1,115 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Proyecto de Practicas
+ * Gestion de Sistemas de Informacion
+ * Curso Academico 21/22
+ * Grupo GR03
  */
 package GSILabs.BSystem;
 
 import GSILabs.BModel.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- *
- * @author alumno
+ * Clase para el BusinessSystem
+ * @author GR03
+ * @version 1.0
  */
 public class BussinessSystem implements LeisureOffice {
-
+    
+    /** Propiedades **/
     public BusinessData almacenamiento;
-
+    
+    /** Constructor **/
     public BussinessSystem() {
         this.almacenamiento = new BusinessData();
     }
-
+    
     //**USUARIOS**//
+    
+    /**
+     * Da de alta un usuario, en caso de que su informacion no incumpla las 
+     * normas referentes al nick o edad.
+     * @param u El nuevo usuario
+     * @return Cierto si el usuario pudo ser añadido.
+     */
     @Override
     public boolean nuevoUsuario(Usuario u) {
-        if(existeNick(u.nick)){
-            System.out.println("No se puede añadir el usario. El nick ya existe.");
+        try {
+            if (existeNick(u.nick)) {
+                System.out.println("No se puede añadir el usario. El nick ya existe.");
+                return false;
+            } else {
+                almacenamiento.usuarios.add(u);
+                System.out.println("Usuario " + u.nick + " añadido correctamente.");
+                return true;
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al crear usuario.");
             return false;
-        } else {
-            almacenamiento.usuarios.add(u);
-            System.out.println("Usuario " + u.nick + " añadido correctamente.");
-            return true;
         }
     }
-
+    
+    /**
+     * Elimina al usuario que se pase como argument.
+     * @param u El usuario
+     * @return True si y solo si el usuario existia y pudo ser eliminado.
+     */
     @Override
     public boolean eliminaUsuario(Usuario u) {
-        return almacenamiento.usuarios.remove(u);
+        if (existeNick(u.nick)) {
+            System.out.println("El usuario se ha eliminado correctamente.");
+            almacenamiento.usuarios.remove(u);
+            return false;
+        } else {
+            System.out.println("Usuario " + u.nick + " no existe, no se puede eliminar.");
+            return true;
+        }
     }
-
+    
+    /**
+     * Reemplaza en el sistema al usuario viejo por el nuevo. Para que esto suceda debe
+     * Cumplirse que el usuario viejo exista y que el nuevo no incumpla normas
+     * relativas a las politicas de Usuarios (nick y/o edad)
+     * @param u El usuario
+     * @param nuevoU El nuevo usuario
+     * @return True si el usuario se encontro y pudo ser modificado
+     */
     @Override
     public boolean modificaUsuario(Usuario u, Usuario nuevoU) {
-        if (almacenamiento.usuarios.remove(u)) {
-            return nuevoUsuario(u);
+        if (eliminaUsuario(u) && nuevoUsuario(u)) {
+            System.out.println("Usuario modificado correctamente.");
+            return true;
         } else {
+            System.out.println("El usuario no se ha podido modificar.");
             return false;
         }
     }
-
+    
+    /**
+     * Comprueba si existe algun usuario con ese mismo nick
+     * @param nick
+     * @return True si existe un usuario con ese nick
+     */
     @Override
     public boolean existeNick(String nick) {
-        if (almacenamiento.usuarios.stream().anyMatch((u) -> (nick.contentEquals(u.nick)))) {
-            return true;
+        if (!almacenamiento.usuarios.isEmpty()) {
+            for (Usuario usuario : almacenamiento.usuarios) {
+                if (nick.contentEquals(usuario.nick)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
-
+    
+    /**
+     * Recupera el usuario asociado a un nick, en caso de que exista.
+     * @param nick
+     * @return El usuario con el nick. Debe devolver null si existeNick(nick) es falso.
+     */
     @Override
     public Usuario obtenerUsuario(String nick) {
         for (Usuario u : almacenamiento.usuarios) {
@@ -68,6 +121,7 @@ public class BussinessSystem implements LeisureOffice {
     }
 
     //**REVIEWS**//
+    
     /**
      * Incorpora una nueva review al sistema, en caso de que sus datos (Usuario,
      * Local) sean correctos y no haya otra introducida para la misma fecha.
@@ -77,137 +131,480 @@ public class BussinessSystem implements LeisureOffice {
      */
     @Override
     public boolean nuevaReview(Review r) {
-        if(true){   
+        try{
+            Usuario usuario = obtenerUsuario(r.nickUsuario);
+            //Comprobamos que existe el usuario y que no tenga una review en ese local en la misma fecha
+            if(existeNick(r.getNickUsuario()) && !existeRewiew(usuario, r.local, r.fecha)){
+                almacenamiento.reviews.add(r);
+                System.out.println("Rewiew añadida correctamente.");
+                return true;
+            }else{
+                System.out.println("No se puede añadir la rewiew.");
+                if(existeRewiew(usuario, r.local, r.fecha)){
+                    System.out.println("Ya existe una rewiew para esta fecha");
+                }
+                return false;
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al crear la review.");
+            return false;
+        }
+    }
+    
+    /**
+     * Elimina una review del sistema, siempre y cuando exista y no tenga una 
+     * contestacion asociada.
+     * @param r Review a eliminar
+     * @return True si y solo si la operacion fue completada.
+     */
+    @Override
+    public boolean eliminaReview(Review r) {
+        return almacenamiento.reviews.remove(r);
+    }
+    
+    /**
+     * Comprueba si la visita de un usuario a un local en una fecha dada ha sido 
+     * comentada. En caso deque alguno de los datos sea incorrecto, o inexistente, el 
+     * resultado sera false.
+     * @param u el usuario
+     * @param l el local visitadl
+     * @param ld la fecha de visita
+     * @return True si y solo si la review existe.
+     */
+    @Override
+    public boolean existeRewiew(Usuario u, Local l, LocalDate ld) {
+       if (!almacenamiento.reviews.isEmpty()) {
+           for(Review review : almacenamiento.reviews){
+               if(u.nick.contentEquals(review.getNickUsuario()) &&
+                    l.equals(review.local) &&
+                    ld.equals(review.fecha))
+               {
+                   //System.out.println("El usuario " + u.nick +" dejó una review en el local " + l.getNombre() + " con fecha " + ld);
+                   //Este log resulta confuso a la hora de tratar reviews, por eso se deja comentado
+                   return true;
+               }
+           }
+       }
+        return false;
+    }
+
+    //**CONTESTACIONES**//
+    
+    /**
+     * Añade una contestacion a una review, en caso de que la review exista y no este 
+     * ya comentada.
+     * @param c Contestacion a añadir
+     * @param r Review
+     * @return True si y solo si la operacion fue completada y se pudo añadir la review.
+     */
+    
+    
+    @Override
+    public boolean nuevaContestacion(Contestacion c, Review r) {
+        try {
+            Usuario user = obtenerUsuario(r.nickUsuario);
+            //Comprobamos que exista la review y que  no tenga ya una contestacion
+            if (existeRewiew(user, r.local, r.fecha) && !tieneContestacion(r)) {
+                r.añadirContestacion(c);
+                System.out.println("Contestacion creada.");
+                System.out.println("El propietario " + c.p.nick + " ha contestado a una review de " + r.nickUsuario +" en el local " + r.local.getNombre() + " con fecha " + r.fecha);
+                return true;
+            } else {
+                System.out.println("ERROR al crear respuesta.");
+                if(!existeRewiew(user, r.local, r.fecha )){
+                    System.out.println("La review a la que se quiere contestar no existe.");
+                }
+                if(tieneContestacion(r)){
+                    System.out.println("La review ya tiene contestacion");
+                }
+                return false;
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al crear respuesta.");
+            return false;
+        }
+    }
+    
+    /**
+     * Consulta la existencia de una contestacion para una review. Devolvera
+     * falso si la contestacion no existe, o si la Review no esta registrada en
+     * el sistema.
+     * @param r Review a añadir
+     * @return True si y solo si la Review existe y tiene contestacion
+     */
+    @Override
+    public boolean tieneContestacion(Review r) {
+        if (r.respuesta == null) {
+            return false;
+        } else {
             return true;
-        }else{
+        }
+    }
+    
+    /**
+     * Recupera la contestacion para una review dada, si esta existe.
+     * @param r Review a consultar
+     * @return La contestacion, o null si esta, o la propia review, no existen
+     */
+    @Override
+    public Contestacion obtenerContestacion(Review r) {
+        try {
+            return r.respuesta;
+        } catch (NullPointerException ex) {
+            return null;
+        }
+    }
+    
+    /**
+     * Elimina la contestacion pasada como argumento
+     * @param c Contestacion a eliminar
+     * @return True si y solo si la operacion fue completada.
+     */
+    @Override
+    public boolean eliminaContestacion(Contestacion c) {
+        try {
+            for (Review review : almacenamiento.reviews) {
+                if (review.respuesta.equals(c)) {
+                    review.respuesta = null;
+                    System.out.println("Contestacion eliminada correctamente.");
+                    return true;
+                } else {
+                    System.out.println("ERROR al eliminar respuesta.");
+                    return false;
+                }
+            }
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al eliminar respuesta.");
+            return false;
+        }
+        return false;
+    }
+    
+    /**
+     * Elimina la contestacion asociada a una review
+     * @param r La review cuya contestacion hay que elimnar
+     * @return True si y solo si la operacion fue completada.
+     */
+    @Override
+    public boolean eliminaContestacion(Review r) {
+        try {
+            r.respuesta = null;
+            System.out.println("Contestacion eliminada correctamente.");
+            return true;
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al eliminar respuesta.");
             return false;
         }
     }
 
-    public boolean eliminaReview(Review r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean existeRewiew(Usuario u, Local l, LocalDate ld) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    //**CONTESTACIONES**//
-    @Override
-    public boolean nuevaContestacion(Contestacion c, Review r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean tieneContestacion(Review r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Contestacion obtenerContestacion(Review r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean eliminaContestacion(Contestacion c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean eliminaContestacion(Review r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     //**LOCALES**//
+    
+    /**
+     * Añade un local al sistema, siempre que no exista otro en la misma direccion.
+     * @param l El nuevo local
+     * @return True si y solo si la operacion fue completada.
+     */
     @Override
     public boolean nuevoLocal(Local l) {
-        //Funcion para verificar que no hayan dos locales en la misma direccion
-//        if(ComprobarUbicacion(this)){
-//            this.direccion = new Direccion(direccion);
-//            propietarios = new HashSet<>();
-//            System.out.println("no hay ningun local en esta direccion");
-//        }
-//        else{
-//            System.out.println("En esta direccion ya hay un local.");
-//        }
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Local local : almacenamiento.locales) {
+            if (local.equals(l)) {
+                System.out.println("En esta direccion ya hay un local.");
+                return false;
+            }
+        }
+        almacenamiento.locales.add(l);
+        System.out.println("Local añadido correctamente.");
+        return true;
     }
-
+    
+    /**
+     * Elimina un local determinado, si este existe como tal en el sistema.
+     * @param l EL local a eliminar
+     * @return True si y solo si la operacion fue completada.
+     */
     @Override
     public boolean eliminarLocal(Local l) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Local local : almacenamiento.locales) {
+            if (local.equals(l) && local.nombre.contentEquals(l.nombre)) {
+                almacenamiento.locales.remove(l);
+                System.out.println("Local eliminado correctamente.");
+                return true;
+            }
+        }
+        System.out.println("Local no encontrado, no se ha podido eliminar.");
+        return false;
     }
 
+    /**
+     * Obtiene los datos del local instalado en una determinada direccion fisica
+     * @param d Direccion del local.
+     * @return El local almacenado en el sistema, o null si no existe.
+     */
     @Override
     public Local obtenerLocal(Direccion d) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Local local : almacenamiento.locales) {
+            if (local.direccion.equals(d)) {
+                System.out.println("Local encontrado.");
+                return local;
+            }
+        }
+        System.out.println("Local no encontrado.");
+        return null;
     }
-
+    
+    /**
+     * Asocia un local a un propietario, en caso de que ambos existan y no se haya llegado
+     * al limite de Propietarios por local
+     * @param l Local existente en en sistema
+     * @param p Propietario existente en el sistema
+     * @return True si y solo si la operacion fue completada.
+     */
     @Override
     public boolean asociarLocal(Local l, Propietario p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            if(l.addPropietario(p)){
+                p.addLocal(l);
+            }
+            else{
+                return false;
+            }
+            System.out.println(p.nick + " ahora es propietario del local " + l.nombre);
+            return true;
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al añadir propietario al local.");
+            return false;
+        }
     }
-
+    
+    /**
+     * Desliga un local de un propietario, en caso de que ambos existan y estén
+     * ya relacionados
+     * @param l Local existente en en sistema
+     * @param p Propietario existente en el sistema
+     * @return True si y solo si la operacion fue completada.
+     */
     @Override
     public boolean desasociarLocal(Local l, Propietario p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            l.propietarios.remove(p);
+            System.out.println("Propietario desasociado de su local.");
+            return true;
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al quitar propietario.");
+            return false;
+        }
     }
-
+    
+    /**
+     * 
+     * @param viejoL
+     * @param nuevoL
+     * @return 
+     */
     @Override
     public boolean actualizarLocal(Local viejoL, Local nuevoL) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            eliminarLocal(viejoL);
+            nuevoLocal(nuevoL);
+            System.out.println("Local actualizado.");
+            return true;
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al actualizar el local.");
+            return false;
+        }
     }
 
     //**Locales**//
+    
+    /**
+     * Ver las review asociadas a un local
+     * @param l Local existente en en sistema
+     * @return Lista de reviews del sistema. En caso de que el Local no exista, sera
+     *  el valor null.
+     */
     @Override
     public Review[] verReviews(Local l) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (Review[]) l.reviews.toArray();
     }
 
+    /**
+     * Anota una nueva reserva para un cliente dado, en un local reservable
+     * para una fecha y hora concreta. El cliente y el local deben existir,
+     * y la fecha y hora debe ser futura. El cliente no debe tener otra reserva para el
+     * mismo local en la misma fecha.
+     * @param c Cliente que hace la reserva
+     * @param r Local donde se efectua la reserva
+     * @param ld Fecha de la reserva
+     * @param lt Hora de la reserva
+     * @return True si y solo si la operacion fue completada.
+     */
     @Override
     public boolean nuevaReserva(Cliente c, Reservable r, LocalDate ld, LocalTime lt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            if (existeNick(c.nick)) {
+                Reserva reserva = new Reserva(c, ld, lt, r);
+                almacenamiento.reservas.add(reserva);
+                System.out.println("Reserva creada correctamente.");
+                System.out.println(reserva);
+                return true;
+            } else {
+                System.out.println("ERROR al crear reserva.");
+                return false;
+            }
+        } catch (NullPointerException ex) {
+            return false;
+        }
     }
     
+    /**
+     * Obtiene todas las reservas (futuras y pasadas) del cliente.
+     * @param c El cliente a consultar
+     * @return La lista de las reservas, o null si el cliente no existe.
+     */
     @Override
     public Reserva[] obtenerReservas(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (Reserva[]) c.reservas.toArray();
     }
 
+    /**
+     * Obtiene todas las reservas (futuras y pasadas) del local.
+     * @param r El local a consultar
+     * @return La lista de las reservas, o null si el local no existe.
+     */
     @Override
     public Reserva[] obtenerReservas(Reservable r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List<Reserva> aux = new ArrayList<>();
+            for (Reserva reserva : almacenamiento.reservas) {
+                if (reserva.getReservable().equals(r)) {
+                    aux.add(reserva);
+                }
+            }
+            return (Reserva[]) aux.toArray();
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
     
+    /**
+     * Obtiene todas las reservas del dia usado como argumento
+     * @param ld la fecha a consultar
+     * @return La lista de las reservas.
+     */
     @Override
     public Reserva[] obtenerReservas(LocalDate ld) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List<Reserva> aux = new ArrayList<>();
+            for (Reserva reserva : almacenamiento.reservas) {
+                if (reserva.getFecha().equals(ld)) {
+                    aux.add(reserva);
+                }
+            }
+            return (Reserva[]) aux.toArray();
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
 
+    /**
+     * Elimina una reserva del sistema, en caso de que esta exista
+     * @param r La reserva a eliminar.
+     * @return True si y solo si la operacion fue completada.
+     */
     @Override
     public boolean eliminarReserva(Reserva r) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            almacenamiento.reservas.remove(r);
+            System.out.println("Reserva eliminada correctamente.");
+            return true;
+        } catch (NullPointerException ex) {
+            System.out.println("ERROR al eliminar reserva.");
+            return false;
+        }
     }
-
+    
+    /**
+     * Lista los bares en una ciudad dada
+     * @param ciudad Ciudad de interes
+     * @param provincia Provincia en la que se encuentra la ciudad
+     * @return La lista de locales, potencialmente de longitud 0.
+     */
     @Override
     public Local[] listarLocales(String ciudad, String provincia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List aux = new ArrayList<>();
+            for (Local l : almacenamiento.locales) {
+                if (l.direccion.localidad.contentEquals(ciudad) && l.direccion.provincia.contentEquals(provincia)) {
+                    aux.add(l);
+                }
+            }
+            return (Local[]) aux.toArray();
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
-
+    
+    /**
+     * Lista los bares en una ciudad dada
+     * @param ciudad Ciudad de interes
+     * @param provincia Provincia en la que se encuentra la ciudad
+     * @return La lista de bares, potencialmente de longitud 0.
+     */
     @Override
     public Bar[] listarBares(String ciudad, String provincia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List aux = new ArrayList<>();
+            for (Local l : almacenamiento.locales) {
+                if (l.getClass().getName().contentEquals("GSILabs.BModel.Bar")) {
+                    aux.add(l);
+                }
+            }
+            return (Bar[]) aux.toArray();
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
 
+    /**
+     * Lista los bares en una ciudad dada
+     * @param ciudad Ciudad de interes
+     * @param provincia Provincia en la que se encuentra la ciudad
+     * @return La lista de bares, potencialmente de longitud 0.
+     */
     @Override
     public Restaurante[] listarRestaurantes(String ciudad, String provincia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List aux = new ArrayList<>();
+            for (Local l : almacenamiento.locales) {
+                if (l.getClass().getName().contentEquals("GSILabs.BModel.Restaurante")) {
+                    aux.add(l);
+                }
+            }
+            return (Restaurante[]) aux.toArray();
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
-
+    
+    /**
+     * Lista los bares en una ciudad dada
+     * @param ciudad Ciudad de interes
+     * @param provincia Provincia en la que se encuentra la ciudad
+     * @return La lista de bares, potencialmente de longitud 0.
+     */
     @Override
     public Pub[] listarPubs(String ciudad, String provincia) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List aux = new ArrayList<>();
+            for (Local l : almacenamiento.locales) {
+                if (l.getClass().getName().contentEquals("GSILabs.BModel.Pub")) {
+                    aux.add(l);
+                }
+            }
+            return (Pub[]) aux.toArray();
+        } catch (NullPointerException ex) {
+            return null;
+        }
     }
 
 }

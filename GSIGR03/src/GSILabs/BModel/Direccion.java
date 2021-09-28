@@ -1,25 +1,29 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Proyecto de Practicas
+ * Gestion de Sistemas de Informacion
+ * Curso Academico 21/22
+ * Grupo GR03
  */
 package GSILabs.BModel;
 
-import java.util.Objects;
-
 /**
- *
- * @author alumno
+ * Clase para la Dirección
+ * @author GR03
+ * @version 1.0
  */
 public class Direccion {
     
-    //Propiedades de la direccion
+    /** Propiedades **/
     
     public String localidad;     //Localidad donde se ubica el local
     public String provincia;     //Provincia donde se ubica el local
     public String calle;         //Calle donde se ubica el local 
     public String numero;        //Numero donde se ubica el local
-
+    
+    /** Constructor
+     * 
+     * @param direccion dirección del local
+     */
     public Direccion(String direccion) {
         String[] partes = direccion.split(", ");
         localidad = partes[0];
@@ -28,7 +32,13 @@ public class Direccion {
         numero = partes[3];
     }
     
-    //Constructor para la clase direccion
+    /** Constructor
+     * 
+     * @param localidad localidad donde se ubica el local
+     * @param provincia provincia donde se ubica el local
+     * @param calle calle donde se ubica el local
+     * @param numero numero donde se ubica el local
+     */
     public Direccion(String localidad, String provincia, String calle, String numero) {
         this.localidad = localidad;
         this.provincia = provincia;
@@ -36,35 +46,9 @@ public class Direccion {
         this.numero = numero;
     }
     
-    //Metodos de la direccion. Son getters y setters.
+   
+    /** Metodos **/
     
-    //Get localidad del local
-    public String getLocalidad() {
-        return localidad;
-    }
-
-
-
-    //Get provincia del local
-    public String getProvincia() {
-        return provincia;
-    }
-    
-
-
-    //Get calle del local
-    public String getCalle() {
-        return calle;
-    }
-
-
-
-    //Get numero del local
-    public String getNumero() {
-        return numero;
-    }
-
-
     @Override
     public String toString(){
         return this.localidad + ", " + this.provincia + ", " + this.calle + ", " + this.numero;

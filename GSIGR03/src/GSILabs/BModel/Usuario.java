@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Proyecto de Practicas
+ * Gestion de Sistemas de Informacion
+ * Curso Academico 21/22
+ * Grupo GR03
  */
 package GSILabs.BModel;
 
@@ -12,30 +13,43 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
- * @author alumno
+ * Clase para el Usuario
+ * @author GR03
+ * @version 1.0
  */
 public class Usuario {
+    
+    /** Propiedades **/
+    
+    public String nick;                 //Nick del usuario
+    public String password;             //Contraseña del usuario
+    public String fechaNacimiento;      //Fecha de nacimiento del usuario
 
-    public String nick;
-    public String password;
-    public String fechaNacimiento;
-
-    //Constructor
+    /** Constructor
+     * 
+     * @param nick nick del usuario
+     * @param password password del usuario
+     * @param fechaNacimiento fecha de nacimiento del usuario
+     */
     public Usuario(String nick, String password, String fechaNacimiento) {
         this.nick = nick;
         this.password = password;
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    //Comprueba que la longitud del nick sea menor que 3
+    /**
+     * Comprueba que la longitud del nick sea menor que 3
+     */
     public void comprobarLongitudNick() {
         if (nick.length() < 3) {
             System.out.println("ERROR el nombre debe tener minimo 3 caracteres");
         }
     }
 
-    //comprueba que los usuarios sean mayores de 14 años
+    /**
+     * Comprueba que los usuarios sean mayores de 14 años
+     * @param fecha fecha de nacimiento del usuario
+     */
     public static void comprobarEdadUsuarios(String fecha) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         try {

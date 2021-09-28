@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Proyecto de Practicas
+ * Gestion de Sistemas de Informacion
+ * Curso Academico 21/22
+ * Grupo GR03
  */
 package GSILabs.BModel;
 
@@ -9,13 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author alumno
+ * Clase para el Propietario
+ * @author GR03
+ * @version 1.0
  */
 public class Propietario extends Usuario{
-    List<Local> locales; //Lista con los locales que tiene el usuario.
+    
+    /** Propiedades **/
+    
+    List<Local> locales;            //Lista con los locales que tiene el usuario.
 
-    //Cosntructor
+    /** Constructor
+     * 
+     * @param nick nick del usuario
+     * @param password password del usuario
+     * @param fechaNacimiento fecha de nacimiento del usuario
+     */
+    
     public Propietario(String nick, String password, String fechaNacimiento) {
         super(nick, password, fechaNacimiento);
         locales = new ArrayList<>();
@@ -23,7 +34,7 @@ public class Propietario extends Usuario{
 
     /**
      * Devuelve una lista con los locales que tiene el usuario
-     * @return 
+     * @return lista de locales
      */
     public List<Local> getLocales() {
         return locales;
@@ -33,8 +44,8 @@ public class Propietario extends Usuario{
      * Añade un local a la lista de locales del usuario
      * @param local local que se quiere añadir
      */
-    public void añadirLocal (Local local){
-        locales.add(local);
+    public void addLocal (Local local){
+            locales.add(local);
     }
     
     /**

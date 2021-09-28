@@ -13,18 +13,28 @@ package GSILabs.BModel;
  */
 public class Restaurante extends Local implements Reservable{
     
-    //Propiedas del restaurante
+    /** Propiedades **/
     
-    public String preciomenu;                 //Precio del menu
-    public String CapMaxComensalesTotales;    //Capacidad maxima de comensales totales
-    public String CapMaxComensalesMesa;       //Capacidad maxima de comensales por mesa
+    public String preciomenu;                   //Precio del menú
+    public String CapMaxComensalesTotales;      //Capacidad máxima de comensales totales
+    public String CapMaxComensalesMesa;         //Capacidad máxima de comensales por mesa
 
-    //Constructor
-    public Restaurante(String preciomenu, String CapMaxComensalesTotales, String CapMaxComensalesMesa, String nombre, String descripcion, String direccion) {
-        super(nombre, descripcion, direccion);
+    /** Constructor
+     * 
+     * @param preciomenu precio del menú
+     * @param CapMaxComensalesTotales capacidad máxima de comensales totales
+     * @param CapMaxComensalesMesa capacidad máxima de comensales por mesa
+     * @param nombre nombre del restaurante
+     * @param direccion dirección del restaurante
+     */
+    public Restaurante(String preciomenu, String CapMaxComensalesTotales, String CapMaxComensalesMesa, String nombre, String direccion) {
+        super(nombre, direccion);
         this.preciomenu = preciomenu;
         this.CapMaxComensalesTotales = CapMaxComensalesTotales;
         this.CapMaxComensalesMesa = CapMaxComensalesMesa;
     } 
     
+    public String getNombre() {
+        return nombre;
+    }
 }

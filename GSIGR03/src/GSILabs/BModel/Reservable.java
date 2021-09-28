@@ -1,6 +1,11 @@
-package GSILabs.BModel;
+/*
+ * Proyecto de Practicas
+ * Gestion de Sistemas de Informacion
+ * Curso Academico 21/22
+ * Grupo GR03
+ */
 
-import java.util.Calendar;
+package GSILabs.BModel;
 
 /*
  * Esta interfaz recoge la creacion de reservas para Bares y Restaurantes
@@ -8,11 +13,12 @@ import java.util.Calendar;
  * Cada Reserva incluye la fecha y hora en que se va a efectuar
  * Y un posible porcentaje de descuento
  * 
- * @author David Arbea
+ * @author GR03
+ * @version 1.0
  */
 public interface Reservable {
     
-    
+    public String getNombre();
     
     
 }
