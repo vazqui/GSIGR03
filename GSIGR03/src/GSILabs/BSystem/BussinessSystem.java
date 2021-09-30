@@ -14,7 +14,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import GSILabs.Misc.*;
+//import GSILabs.Misc.*;
 
 /**
  * Clase para el BusinessSystem
@@ -635,7 +635,7 @@ public class BussinessSystem implements LeisureOffice {
     /*
     
     Funcion ejemplo para leer un fichero .ods
-    */
+    
     public void readODS(File file) {
         SpreadSheet spreadsheet;
         try {
@@ -664,5 +664,6 @@ public class BussinessSystem implements LeisureOffice {
             e.printStackTrace();
         }
     }
+    */
 
 }

@@ -7,6 +7,7 @@
 package GSILabs.BModel;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -88,5 +89,33 @@ public class Local {
             System.out.println("No se puede eliminar propietario. La lista esta vacia");
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Local other = (Local) obj;
+        if (!Objects.equals(this.direccion, other.direccion)) {
+            return false;
+        }
+        return true;
+    }
+
+   
+    
+    
     
 }

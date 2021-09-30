@@ -6,6 +6,8 @@
  */
 package GSILabs.BModel;
 
+import java.util.Objects;
+
 /**
  * Clase para la Dirección
  * @author GR03
@@ -45,12 +47,46 @@ public class Direccion {
         this.calle = calle;
         this.numero = numero;
     }
+
     
-   
-    /** Metodos **/
+    
     
     @Override
-    public String toString(){
+    public int hashCode(){
+        int hash = 7;
+        return hash;
+    }
+
+    /** Metodos **/
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Direccion other = (Direccion) obj;
+        if (!Objects.equals(this.localidad, other.localidad)) {
+            return false;
+        }
+        if (!Objects.equals(this.provincia, other.provincia)) {
+            return false;
+        }
+        if (!Objects.equals(this.calle, other.calle)) {
+            return false;
+        }
+        if (!Objects.equals(this.numero, other.numero)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
         return this.localidad + ", " + this.provincia + ", " + this.calle + ", " + this.numero;
     }
 
