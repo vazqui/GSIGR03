@@ -7,10 +7,14 @@
 package GSILabs.BSystem;
 
 import GSILabs.BModel.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import GSILabs.Misc.*;
 
 /**
  * Clase para el BusinessSystem
@@ -335,6 +339,27 @@ public class BussinessSystem implements LeisureOffice {
         return false;
     }
 
+    
+    /**
+     * Importa una lista de bares desde un fichero externo.
+     * @param f apunta a un fichero .ods existente, de una sola pagina,
+     * con el nombre del bar al que se refiere en la primera columna
+     * @return El numero de bares incorporados con exito al sistema
+     */
+    public int importaBares(File f){
+        
+        //Leemos nombre (1 celda)
+        
+        //Leemos direccion (3 celdas)
+        
+        //Leemos propietario (1 columna)
+        
+        //Leemos tags (? columnas)
+        
+        //Creamos el bar y lo incorporamos al sistema
+        return 0;
+    }
+    
     /**
      * Obtiene los datos del local instalado en una determinada direccion fisica
      * @param d Direccion del local.
@@ -604,6 +629,39 @@ public class BussinessSystem implements LeisureOffice {
             return (Pub[]) aux.toArray();
         } catch (NullPointerException ex) {
             return null;
+        }
+    }
+    
+    /*
+    
+    Funcion ejemplo para leer un fichero .ods
+    */
+    public void readODS(File file) {
+        SpreadSheet spreadsheet;
+        try {
+            //Getting the 0th sheet for manipulation| pass sheet name as string
+
+            spreadsheet = SpreadSheet.createFromFile(file);
+
+            //Contador de fila y columna
+            int nColCount = spreadsheet.getSheet(0).getColumnCount();
+            int nRowCount = spreadsheet.getSheet(0).getRowCount();
+
+            System.out.println("Rows :" + nRowCount);
+            System.out.println("Cols :" + nColCount);
+            //Iterating through each row of the selected sheet
+            MutableCell cell = null; //Clase de JOpenDocument
+            for (int nRowIndex = 0; nRowIndex < nRowCount; nRowIndex++) {
+                //Iteramos para cada columna
+                for (int nColIndex = 0; nColIndex < nColCount; nColIndex++) {
+                    cell = spreadsheet.getSheet(0).getCellAt(nColIndex, nRowIndex);
+                    //System.out.print(cell.getValue() + " ");
+                }
+                System.out.println();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
