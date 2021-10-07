@@ -30,6 +30,10 @@ public class Bar extends Local implements Reservable{
         tags = new ArrayList<>();
     }
 
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     public String getNombre() {
         return nombre;
     }

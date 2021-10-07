@@ -366,31 +366,57 @@ public class BussinessSystem implements LeisureOffice {
             //Iterating through each row of the selected sheet
             MutableCell cell = null; //Clase de JOpenDocument
             for (int nRowIndex = 0; nRowIndex < nRowCount; nRowIndex++) {
-                //Iteramos para cada columna
+                //Iteramos para cada columna   
 
                 //Leemos nombre (1 celda)
                 cell = spreadsheet.getSheet(0).getCellAt(0, nRowIndex);
                 String nombre = cell.getValue().toString();
+//                System.out.print(nombre + " ");
                 //Leemos direccion (3 celdas)
                 cell = spreadsheet.getSheet(0).getCellAt(1, nRowIndex);
-                String direccion = cell.getValue().toString();
+                String aux = cell.getValue().toString();
+                String[] partes = aux.split(" ");
+                String direccion = partes[0] + " " + partes[1] + ", " + partes[2];
                 cell = spreadsheet.getSheet(0).getCellAt(2, nRowIndex);
-                direccion.concat("," + cell.getValue().toString());
+                direccion = direccion.concat(", " + cell.getValue().toString());
                 cell = spreadsheet.getSheet(0).getCellAt(3, nRowIndex);
-                direccion.concat("," + cell.getValue().toString());
+                direccion = direccion.concat(", " + cell.getValue().toString());
+//                System.out.print(direccion + " ");
+//                Direccion direccionBar = new Direccion(direccion);
                 //Leemos propietario (1 columna)
                 cell = spreadsheet.getSheet(0).getCellAt(4, nRowIndex);
                 String propietario = cell.getValue().toString();
+                /*** Puede haber mas de un propietario, vienen en formato
+                 * 
+                 * {Daniel Gomez, Francisco Perez, Pablo Asado}
+                 * 
+                 */
+                
+//                System.out.print(propietario + " ");
                 //Creamos el bar
                 Bar bar = new Bar(nombre, direccion);
+                List<String> tags = new ArrayList<String>();
 
                 //Leemos tags (? columnas)
-                int i = 4;
+                int i = 5;
                 cell = spreadsheet.getSheet(0).getCellAt(i, nRowIndex);
-                while(!cell.getValue().toString().isEmpty()){
-                    bar.tags.add(cell.getValue().toString());
-                    i++;cell = spreadsheet.getSheet(0).getCellAt(i, nRowIndex);
+                while(!cell.getValue().toString().equals(" ")){
+//                    System.out.println("El valor de i es: " + i);
+//                    System.out.println(tags);
+                    cell = spreadsheet.getSheet(0).getCellAt(i, nRowIndex);
+                    //bar.tags.add(cell.getValue().toString());
+                    
+                    tags.add(cell.getValue().toString());
+                   
+                    i++;
+                    cell = spreadsheet.getSheet(0).getCellAt(i, nRowIndex);
                 }
+                
+                bar.setTags(tags);
+//                System.out.println(bar.tags);
+
+                System.out.println("El bar leido es: " + nombre + " " + direccion + " " + propietario + " " + bar.tags);
+                System.out.println("");
                 //Incorporamos el local al sistema
                 if(nuevoLocal(bar))
                     contadorOK++;
