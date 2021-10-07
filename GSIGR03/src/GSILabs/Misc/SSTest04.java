@@ -5,10 +5,15 @@
  */
 package GSILabs.Misc;
 
+
+
 import GSILabs.BModel.*;
 import GSILabs.BSystem.BussinessSystem;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -45,17 +50,41 @@ public class SSTest04 {
      */
     private static TableModel obtenerLocales(BussinessSystem system,String tipo){
         Set<Local> locales = system.almacenamiento.locales;
-        Object[][] matrizBar = new String[locales.size()][];
+        Object[][] matrizBar = new String[locales.size()][99];
         int i = 0;
+        int jmax = 0;
         for (Local local : locales) {
             if (local.getClass().getName().contentEquals("GSILabs.BModel."+tipo)) {
-                String[] aux = {local.nombre, local.direccion.provincia, local.direccion.localidad, local.direccion.calle, local.propietarios.toString()};
-                matrizBar[i] = aux;
+                List<String> aux = new ArrayList<>();
+                aux.add(local.nombre);
+                aux.add(local.direccion.provincia);
+                aux.add(local.direccion.localidad);
+                aux.add(local.direccion.calle);
+                aux.add(local.propietarios.toString());
+                if ("Bar".equals(tipo)){
+                    Bar bar = (Bar) local;
+                    bar.tags.forEach((tag) -> {
+                        aux.add(tag);
+                    });
+                }
+                int j = 0;
+                
+                for(String nombre : aux){
+                    matrizBar[i][j] = nombre;
+                    j++;
+                }
+                if (jmax < j){
+                    jmax = j;
+                }
                 i++;
             }
         }
-        String[] columns = new String[]{"Nombre", "Provincia", "Localidad", "Calle", "Propietarios"};
-        TableModel si = new DefaultTableModel(); 
+        String[] columns =  new String[jmax];
+        columns[0] = "Nombre";
+        columns[1] = "Provincia";
+        columns[2] = "Localidad";
+        columns[3] = "Calle";
+        columns[4] = "Propietarios";
         
         return new DefaultTableModel(matrizBar, columns);
     }
@@ -70,12 +99,24 @@ public class SSTest04 {
 
         /* Bares */
         Bar b1 = new Bar("Cañas", "Comunidad Foral de Navarra, Navarra, Calle Perez Goyena, 16");
+        b1.tags.add("calamares");
+        b1.tags.add("tarta");
+        b1.tags.add("chuleton");
         system.nuevoLocal(b1);
         Bar b2 = new Bar("Erreleku", "Comunidad Foral de Navarra, Navarra, Cordovilla, 45");
+        b2.tags.add("ensalada");
+        b2.tags.add("ventresca con aceitillo");
+        b2.tags.add("butifarra");
         system.nuevoLocal(b2);
         Bar b3 = new Bar("Aintzane", "Comunidad Foral de Navarra, Navarra, Barañain, 2");
+        b3.tags.add("fabada");
         system.nuevoLocal(b3);
         Bar b4 = new Bar("Goñi", "Comunidad Foral de Navarra, Navarra, Beriain, 32");
+        b4.tags.add("caravinero fresco del cantabrico");
+        b4.tags.add("pulpo gallego con patatas panaderas");
+        b4.tags.add("confit de conejo con romero y tomillo");
+        b4.tags.add("croquetas");
+        b4.tags.add("caracoles");
         system.nuevoLocal(b4);
 
         /* Restaurantes */
