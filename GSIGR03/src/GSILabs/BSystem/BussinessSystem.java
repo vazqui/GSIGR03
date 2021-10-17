@@ -14,6 +14,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.jopendocument.dom.spreadsheet.MutableCell;
+import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 
@@ -349,42 +350,46 @@ public class BussinessSystem implements LeisureOffice {
      */
     public int importaBares(File f){
         
-        SpreadSheet spreadsheet;
+        Sheet spreadsheet;
         int contadorOK = 0;
         
         try {
-            //Getting the 0th sheet for manipulation| pass sheet name as string
+            //El fichero debe tener una unica hoja
 
-            spreadsheet = SpreadSheet.createFromFile(f);
+            spreadsheet = SpreadSheet.createFromFile(f).getSheet(0);
             
             //Contador de fila y columna
-            int nColCount = spreadsheet.getSheet(0).getColumnCount();
-            int nRowCount = spreadsheet.getSheet(0).getRowCount();
+            int nColCount = spreadsheet.getColumnCount();
+            int nRowCount = spreadsheet.getRowCount();
 
             System.out.println("Rows :" + nRowCount);
             System.out.println("Cols :" + nColCount);
-            //Iterating through each row of the selected sheet
+            //Iteramos cada fila del documento
             MutableCell cell = null; //Clase de JOpenDocument
-            for (int nRowIndex = 0; nRowIndex < nRowCount; nRowIndex++) {
-                //Iteramos para cada columna   
+            for (int nRowIndex = 0; nRowIndex < nRowCount; nRowIndex++) {  
 
                 //Leemos nombre (1 celda)
-                cell = spreadsheet.getSheet(0).getCellAt(0, nRowIndex);
+                cell = spreadsheet.getCellAt(0, nRowIndex);
                 String nombre = cell.getValue().toString();
-//                System.out.print(nombre + " ");
+                
                 //Leemos direccion (3 celdas)
-                cell = spreadsheet.getSheet(0).getCellAt(1, nRowIndex);
+                cell = spreadsheet.getCellAt(1, nRowIndex);
                 String aux = cell.getValue().toString();
                 String[] partes = aux.split(" ");
+                //partes.length
+                
+                /// PONER COMAS
+                
+                
+                
                 String direccion = partes[0] + " " + partes[1] + ", " + partes[2];
-                cell = spreadsheet.getSheet(0).getCellAt(2, nRowIndex);
+                cell = spreadsheet.getCellAt(2, nRowIndex);
                 direccion = direccion.concat(", " + cell.getValue().toString());
-                cell = spreadsheet.getSheet(0).getCellAt(3, nRowIndex);
+                cell = spreadsheet.getCellAt(3, nRowIndex);
                 direccion = direccion.concat(", " + cell.getValue().toString());
-//                System.out.print(direccion + " ");
-//                Direccion direccionBar = new Direccion(direccion);
+                
                 //Leemos propietario (1 columna)
-                cell = spreadsheet.getSheet(0).getCellAt(4, nRowIndex);
+                cell = spreadsheet.getCellAt(4, nRowIndex);
                 String propietario = cell.getValue().toString();
                 /*** Puede haber mas de un propietario, vienen en formato
                  * 
@@ -392,31 +397,30 @@ public class BussinessSystem implements LeisureOffice {
                  * 
                  */
                 
-//                System.out.print(propietario + " ");
                 //Creamos el bar
                 Bar bar = new Bar(nombre, direccion);
                 List<String> tags = new ArrayList<String>();
 
                 //Leemos tags (? columnas)
                 int i = 5;
-                cell = spreadsheet.getSheet(0).getCellAt(i, nRowIndex);
+                cell = spreadsheet.getCellAt(i, nRowIndex);
                 while(!cell.getValue().toString().equals(" ")){
-//                    System.out.println("El valor de i es: " + i);
-//                    System.out.println(tags);
-                    cell = spreadsheet.getSheet(0).getCellAt(i, nRowIndex);
-                    //bar.tags.add(cell.getValue().toString());
+                    cell = spreadsheet.getCellAt(i, nRowIndex);
                     
                     tags.add(cell.getValue().toString());
-                   
-                    i++;
-                    cell = spreadsheet.getSheet(0).getCellAt(i, nRowIndex);
+                    
+                        i++;
+                        
+                        if(i==nColCount)
+                        break;
+                    cell = spreadsheet.getCellAt(i, nRowIndex);
                 }
                 
                 bar.setTags(tags);
-//                System.out.println(bar.tags);
 
                 System.out.println("El bar leido es: " + nombre + " " + direccion + " " + propietario + " " + bar.tags);
                 System.out.println("");
+                
                 //Incorporamos el local al sistema
                 if(nuevoLocal(bar))
                     contadorOK++;
@@ -429,36 +433,6 @@ public class BussinessSystem implements LeisureOffice {
         return contadorOK;
     }
     
-    /*
-    
-    SpreadSheet spreadsheet;
-        try {
-            //Getting the 0th sheet for manipulation| pass sheet name as string
-
-            spreadsheet = SpreadSheet.createFromFile(file);
-
-            //Contador de fila y columna
-            int nColCount = spreadsheet.getSheet(0).getColumnCount();
-            int nRowCount = spreadsheet.getSheet(0).getRowCount();
-
-            System.out.println("Rows :" + nRowCount);
-            System.out.println("Cols :" + nColCount);
-            //Iterating through each row of the selected sheet
-            MutableCell cell = null; //Clase de JOpenDocument
-            for (int nRowIndex = 0; nRowIndex < nRowCount; nRowIndex++) {
-                //Iteramos para cada columna
-                for (int nColIndex = 0; nColIndex < nColCount; nColIndex++) {
-                    cell = spreadsheet.getSheet(0).getCellAt(nColIndex, nRowIndex);
-                    //System.out.print(cell.getValue() + " ");
-                }
-                System.out.println();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    
-    */
     
     /**
      * Obtiene los datos del local instalado en una determinada direccion fisica
@@ -733,37 +707,6 @@ public class BussinessSystem implements LeisureOffice {
     }
     
     
-    
-    ///Funcion ejemplo para leer un fichero .ods
-    
-    public void readODS(File file) {
-        SpreadSheet spreadsheet;
-        try {
-            //Getting the 0th sheet for manipulation| pass sheet name as string
-
-            spreadsheet = SpreadSheet.createFromFile(file);
-
-            //Contador de fila y columna
-            int nColCount = spreadsheet.getSheet(0).getColumnCount();
-            int nRowCount = spreadsheet.getSheet(0).getRowCount();
-
-            System.out.println("Rows :" + nRowCount);
-            System.out.println("Cols :" + nColCount);
-            //Iterating through each row of the selected sheet
-            MutableCell cell = null; //Clase de JOpenDocument
-            for (int nRowIndex = 0; nRowIndex < nRowCount; nRowIndex++) {
-                //Iteramos para cada columna
-                for (int nColIndex = 0; nColIndex < nColCount; nColIndex++) {
-                    cell = spreadsheet.getSheet(0).getCellAt(nColIndex, nRowIndex);
-                    //System.out.print(cell.getValue() + " ");
-                }
-                System.out.println();
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
     
   
 

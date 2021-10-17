@@ -14,13 +14,13 @@ import java.time.LocalTime;
  *
  * @author alumno
  */
-public class SSTest06 {
+public class SSTest05 {
     
     public static void main(String[] args) {
         
         BussinessSystem system = new BussinessSystem();
         
-        File f = new File("ejemplo.ods");
+        File f = new File("Locales.ods");
         
         System.out.println(system.importaBares(f));
         

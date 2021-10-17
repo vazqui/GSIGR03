@@ -34,8 +34,9 @@ public class SSTest04 {
         TableModel pubsModel = obtenerLocales(system, "Pub");
         
         
-        SpreadSheet sheet = SpreadSheet.createEmpty(baresModel);
+        SpreadSheet sheet = SpreadSheet.create(1,1,1);
         sheet.getSheet(0).setName("Bares");
+        sheet.getSheet(0).merge(baresModel, 0, 0);
         sheet.addSheet("Restaurantes").merge(restaurantesModel,0,0);
         sheet.addSheet("Pubs").merge(pubsModel,0,0);
         
@@ -57,9 +58,9 @@ public class SSTest04 {
             if (local.getClass().getName().contentEquals("GSILabs.BModel."+tipo)) {
                 List<String> aux = new ArrayList<>();
                 aux.add(local.nombre);
-                aux.add(local.direccion.provincia);
+                aux.add(local.direccion.calle + " " + local.direccion.numero);
                 aux.add(local.direccion.localidad);
-                aux.add(local.direccion.calle);
+                aux.add(local.direccion.provincia);
                 aux.add(local.propietarios.toString());
                 if ("Bar".equals(tipo)){
                     Bar bar = (Bar) local;
@@ -77,13 +78,14 @@ public class SSTest04 {
                     jmax = j;
                 }
                 i++;
+               
             }
         }
         String[] columns =  new String[jmax];
         columns[0] = "Nombre";
-        columns[1] = "Provincia";
+        columns[1] = "Calle";
         columns[2] = "Localidad";
-        columns[3] = "Calle";
+        columns[3] = "Provincia";
         columns[4] = "Propietarios";
         
         return new DefaultTableModel(matrizBar, columns);
