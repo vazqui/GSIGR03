@@ -376,13 +376,17 @@ public class BussinessSystem implements LeisureOffice {
                 cell = spreadsheet.getCellAt(1, nRowIndex);
                 String aux = cell.getValue().toString();
                 String[] partes = aux.split(" ");
-                //partes.length
+                //Separamos el numero de la calle (ultima posicion) de la calle
+                //Usando una coma (,)
+                int k=0;
+                String direccion = partes[0];
+                k++;
+                while(k<partes.length-1){
+                    direccion = direccion.concat(" " + partes[k]);
+                    k++;
+                }
+                direccion = direccion.concat(", " + partes[k]);
                 
-                /// PONER COMAS
-                
-                
-                
-                String direccion = partes[0] + " " + partes[1] + ", " + partes[2];
                 cell = spreadsheet.getCellAt(2, nRowIndex);
                 direccion = direccion.concat(", " + cell.getValue().toString());
                 cell = spreadsheet.getCellAt(3, nRowIndex);
@@ -404,7 +408,7 @@ public class BussinessSystem implements LeisureOffice {
                 //Leemos tags (? columnas)
                 int i = 5;
                 cell = spreadsheet.getCellAt(i, nRowIndex);
-                while(!cell.getValue().toString().equals(" ")){
+                while(!cell.getValue().toString().isBlank()){
                     cell = spreadsheet.getCellAt(i, nRowIndex);
                     
                     tags.add(cell.getValue().toString());
