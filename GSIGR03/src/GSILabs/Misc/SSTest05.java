@@ -20,7 +20,7 @@ public class SSTest05 {
         
         BussinessSystem system = new BussinessSystem();
         
-        File f = new File("Locales.ods");
+        File f = new File("ejemplo.ods");
         
         System.out.println(system.importaBares(f));
         

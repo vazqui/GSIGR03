@@ -408,7 +408,7 @@ public class BussinessSystem implements LeisureOffice {
                 //Leemos tags (? columnas)
                 int i = 5;
                 cell = spreadsheet.getCellAt(i, nRowIndex);
-                while(!cell.getValue().toString().isBlank()){
+                while(!cell.getValue().toString().isEmpty() && !cell.getValue().toString().equals(" ")){
                     cell = spreadsheet.getCellAt(i, nRowIndex);
                     
                     tags.add(cell.getValue().toString());
