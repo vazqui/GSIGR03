@@ -1,18 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Proyecto de Practicas
+ * Gestion de Sistemas de Informacion
+ * Curso Academico 21/22
+ * Grupo GR03
  */
 package GSILabs.Misc;
 
-import GSILabs.BModel.*;
 import GSILabs.BSystem.*;
 import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalTime;
+
 /**
- *
- * @author alumno
+ * @author GR03
+ * @version 1.0
  */
 public class SSTest05 {
     

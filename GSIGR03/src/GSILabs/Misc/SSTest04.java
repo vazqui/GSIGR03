@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Proyecto de Practicas
+ * Gestion de Sistemas de Informacion
+ * Curso Academico 21/22
+ * Grupo GR03
  */
 package GSILabs.Misc;
 
@@ -12,7 +13,6 @@ import GSILabs.BSystem.BussinessSystem;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import javax.swing.table.DefaultTableModel;
@@ -21,27 +21,31 @@ import org.jopendocument.dom.OOUtils;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
 
 /**
- *
- * @author alumno
+ * @author GR03
+ * @version 1.0
  */
 public class SSTest04 {
 
     public static void main(String[] args) throws IOException {
         BussinessSystem system = introduccionDatosEjemplo();
         
+        //Crea la tabla con los datos del array
         TableModel baresModel = obtenerLocales(system, "Bar");
         TableModel restaurantesModel = obtenerLocales(system, "Restaurante");
         TableModel pubsModel = obtenerLocales(system, "Pub");
         
-        
+        //Creamos el sheet
         SpreadSheet sheet = SpreadSheet.create(1,1,1);
         sheet.getSheet(0).setName("Bares");
         sheet.getSheet(0).merge(baresModel, 0, 0);
         sheet.addSheet("Restaurantes").merge(restaurantesModel,0,0);
         sheet.addSheet("Pubs").merge(pubsModel,0,0);
         
+        //Guarda los datos en el fichero "test01.ods"
         final File file = new File("Locales.ods");
         sheet.saveAs(file);
+        
+        //Abre el fichero en el programa de OpenOffice
         OOUtils.open(file);
     }
 

@@ -96,7 +96,7 @@ public class BussinessSystem implements LeisureOffice {
     
     /**
      * Comprueba si existe algun usuario con ese mismo nick
-     * @param nick
+     * @param nick nick del usuario
      * @return True si existe un usuario con ese nick
      */
     @Override
@@ -113,7 +113,7 @@ public class BussinessSystem implements LeisureOffice {
     
     /**
      * Recupera el usuario asociado a un nick, en caso de que exista.
-     * @param nick
+     * @param nick nick del usuario
      * @return El usuario con el nick. Debe devolver null si existeNick(nick) es falso.
      */
     @Override
@@ -500,9 +500,9 @@ public class BussinessSystem implements LeisureOffice {
     
     /**
      * 
-     * @param viejoL
-     * @param nuevoL
-     * @return 
+     * @param viejoL viejo local
+     * @param nuevoL nuevo local
+     * @return true
      */
     @Override
     public boolean actualizarLocal(Local viejoL, Local nuevoL) {

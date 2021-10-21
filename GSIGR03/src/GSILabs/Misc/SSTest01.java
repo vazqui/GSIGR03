@@ -6,15 +6,12 @@
  */
 package GSILabs.Misc;
 
-import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import org.jopendocument.dom.OOUtils;
-import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
-import org.jopendocument.sample.SpreadSheetCreation;
 
 /**
  * @author GR03
@@ -23,7 +20,7 @@ import org.jopendocument.sample.SpreadSheetCreation;
 public class SSTest01 {
 
     public static void main(String[] args) throws IOException {
-
+        
         // Crea el array bidimensional de 4 x 6
         final Object[][] data = new Integer[4][6];
         String[] columns = new String[]{"", "", "", "", "", ""};

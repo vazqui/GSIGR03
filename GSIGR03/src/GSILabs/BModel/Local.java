@@ -29,7 +29,6 @@ public class Local {
     /** Constructor
      * 
      * @param nombre nombre del local
-     * @param descripcion descripción del local
      * @param direccion dirección del local
     */
     public Local(String nombre, String direccion) {
@@ -64,6 +63,7 @@ public class Local {
     /**
      * Añade un propietario a la lista de propietarios del local
      * @param p propietario que se va a añadir 
+     * @return  true
      */
     public boolean addPropietario(Propietario p){
         

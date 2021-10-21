@@ -29,8 +29,9 @@ public class Review {
      *
      * @param nickUsuario nick del usuario que realiza la review
      * @param comentario comentario describiendo la opinión del usuario
+     * @param local local donde tiene la review
      */
-    public Review(String nickUsuario, String comentario, Local local) {                      //Local al que se le deja la review??
+    public Review(String nickUsuario, String comentario, Local local) {                      
 
         if (comprobarReview(comentario)) {
             this.nickUsuario = nickUsuario;

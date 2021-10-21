@@ -47,6 +47,7 @@ public class Reserva{
      * 
      * @param cliente cliente que realiza la reserva
      * @param fecha fecha de la reserva
+     * @param hora hora de la reserva
      * @param reservable si se trata de bar o restaurante
      */
     
@@ -63,6 +64,7 @@ public class Reserva{
      * 
      * @param cliente cliente que reserva
      * @param fecha fecha de reserva
+     * @param hora hora de la reserva
      * @param reservable si es bar o restaurante
      * @param descuento descuento aplicado
      */
