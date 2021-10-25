@@ -6,12 +6,15 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.serializable.XMLRepresentable;
+import java.io.File;
+
 /**
  * Clase para el Pub
  * @author GR03
  * @version 1.0
  */
-public class Pub extends Local{
+public class Pub extends Local implements XMLRepresentable{
 
     /** Propiedades **/
     
@@ -34,6 +37,21 @@ public class Pub extends Local{
     
     public String getNombre() {
         return nombre;
+    }
+
+    @Override
+    public String toXML() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(File f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
    
 

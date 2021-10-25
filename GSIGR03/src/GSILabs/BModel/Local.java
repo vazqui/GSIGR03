@@ -6,9 +6,21 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.serializable.XMLRepresentable;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -16,7 +28,11 @@ import java.util.Set;
  * @author GR03
  * @version 1.0
  */
-public class Local {
+public class Local implements XMLRepresentable{
+
+    public static void main(String[] args) throws ParserConfigurationException, SAXException {
+        Local l = new Local("prueba.xml");
+    }
     
     /** Propiedades **/
     
@@ -38,6 +54,35 @@ public class Local {
         reviews = new HashSet<>();
     }
     
+    public Local(String XMLfile) throws ParserConfigurationException, SAXException{
+        Document document;
+        try {
+            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLfile);
+            document.getDocumentElement().normalize();
+            
+            NodeList lista_locales = document.getElementsByTagName("local");
+            int i = 0;
+            while (i < lista_locales.getLength()){
+                Node node_local = lista_locales.item(i);
+                if (node_local.getNodeType() == Node.ELEMENT_NODE) {
+                     Element element = (Element) node_local;
+                     this.nombre = element.getAttribute("nombre");
+                     this.descripcion = element.getAttribute("descripcion");
+                  
+                    i++;
+                }
+                
+            }
+            System.out.println(nombre + descripcion);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+        
+    }
+    
+   
     /** 
      * Función para comprobar la longitud de la descripción
      * @param descripcion descripción del local
@@ -112,6 +157,21 @@ public class Local {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toXML() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(File f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    

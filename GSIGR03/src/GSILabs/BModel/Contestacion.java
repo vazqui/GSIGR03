@@ -6,12 +6,15 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.serializable.XMLRepresentable;
+import java.io.File;
+
 /**
  * Clase para la Contestacion
  * @author GR03
  * @version 1.0
  */
-public class Contestacion {
+public class Contestacion implements XMLRepresentable{
     
     /** Propiedades **/
     
@@ -33,6 +36,21 @@ public class Contestacion {
         } else {
             System.out.println("No se puede crear la contestacion. El local no pertenece al propietario.");
         }
+    }
+
+    @Override
+    public String toXML() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(File f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

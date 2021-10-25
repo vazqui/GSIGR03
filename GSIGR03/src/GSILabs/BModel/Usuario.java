@@ -6,6 +6,8 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.serializable.XMLRepresentable;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @author GR03
  * @version 1.0
  */
-public class Usuario {
+public class Usuario implements XMLRepresentable{
     
     /** Propiedades **/
     
@@ -89,5 +91,20 @@ public class Usuario {
     @Override
     public String toString() {
         return  nick;
+    }
+
+    @Override
+    public String toXML() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(File f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

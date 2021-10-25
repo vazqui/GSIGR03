@@ -6,6 +6,8 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.serializable.XMLRepresentable;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
@@ -31,7 +33,7 @@ import java.util.Calendar;
  * @author GR03
  * @version 1.0
  */
-public class Reserva{
+public class Reserva implements XMLRepresentable{
     
     /** Propiedades **/
     
@@ -163,6 +165,21 @@ public class Reserva{
     @Override
     public String toString() {
         return new String("El cliente " + cliente.getNick() + " tiene una reserva en " + local.getNombre() + " con fecha " + fecha + " " + hora + ".");
+    }
+
+    @Override
+    public String toXML() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(File f) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean saveToXML(String filePath) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     
