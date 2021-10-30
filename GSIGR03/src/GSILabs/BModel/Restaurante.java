@@ -8,12 +8,19 @@ package GSILabs.BModel;
 
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringWriter;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Clase para el restaurante
  * @author GR03
  * @version 1.0
  */
+
+@XmlRootElement
 public class Restaurante extends Local implements Reservable, XMLRepresentable{
     
     /** Propiedades **/
@@ -37,15 +44,42 @@ public class Restaurante extends Local implements Reservable, XMLRepresentable{
         this.CapMaxComensalesMesa = CapMaxComensalesMesa;
     } 
     
+    public Restaurante(){}
+    
     public String getNombre() {
         return nombre;
     }
 
     @Override
     public String toXML() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Restaurante.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(this, sw);
+
+            //Verify XML Content
+            String xmlContent = sw.toString();
+            System.out.println(xmlContent);
+            return xmlContent;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
+    
     @Override
     public boolean saveToXML(File f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -7,6 +7,8 @@
 
 package GSILabs.BModel;
 
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
 /*
  * Esta interfaz recoge la creacion de reservas para Bares y Restaurantes
  * 

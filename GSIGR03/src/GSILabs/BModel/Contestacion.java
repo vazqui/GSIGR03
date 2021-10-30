@@ -8,12 +8,20 @@ package GSILabs.BModel;
 
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringWriter;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Clase para la Contestacion
  * @author GR03
  * @version 1.0
  */
+
+@XmlRootElement
+
 public class Contestacion implements XMLRepresentable{
     
     /** Propiedades **/
@@ -37,11 +45,40 @@ public class Contestacion implements XMLRepresentable{
             System.out.println("No se puede crear la contestacion. El local no pertenece al propietario.");
         }
     }
+    
+    public Contestacion(){
+        
+    }
 
     @Override
     public String toXML() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Contestacion.class);
+             
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+ 
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+ 
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+             
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(this , sw);
+             
+            //Verify XML Content
+            String xmlContent = sw.toString();
+            System.out.println( xmlContent );
+            return xmlContent;
+ 
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
+
 
     @Override
     public boolean saveToXML(File f) {

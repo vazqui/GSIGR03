@@ -8,9 +8,18 @@ package GSILabs.BModel;
 
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /*
  * La Reserva se realiza para un Cliente, pudiendo reservar un Bar o Restaurante
@@ -33,15 +42,21 @@ import java.util.Calendar;
  * @author GR03
  * @version 1.0
  */
+
+@XmlRootElement
+//    @XmlJavaTypeAdapter(AnyTypeAdapter.class)
+
 public class Reserva implements XMLRepresentable{
     
     /** Propiedades **/
     
-    private Cliente cliente;            //Cliente
-    private LocalDate fecha;            //Fecha
-    private LocalTime hora;             //Hora
-    private double descuento;           //Descuento
-    private Reservable local;           //Local
+    @XmlAnyElement
+    public Cliente cliente;            //Cliente
+    public String fecha;            //Fecha
+    public String hora;             //Hora
+    public double descuento;           //Descuento
+    @XmlElement(type=Local.class)
+    public Reservable local;           //Local
     
     //En reservable tendremos una clase que puede ser Bar o Restaurante
     
@@ -55,8 +70,8 @@ public class Reserva implements XMLRepresentable{
     
     public Reserva(Cliente cliente, LocalDate fecha,LocalTime hora, Reservable reservable) {
         this.cliente = cliente;
-        this.fecha = fecha;
-        this.hora = hora;
+        this.fecha = fecha.toString();
+        this.hora = hora.toString();
         this.local = reservable;
         this.descuento = 0.00;
         
@@ -73,95 +88,29 @@ public class Reserva implements XMLRepresentable{
     
     public Reserva(Cliente cliente, LocalDate fecha, LocalTime hora, Reservable reservable, double descuento) {
         this.cliente = cliente;
-        this.fecha = fecha;
-        this.hora = hora;
+        this.fecha = fecha.toString();
+        this.hora = hora.toString();
         this.local = reservable; 
         this.descuento = descuento;
         
     }
-
-
-    /** 
-     * Devuelve el cliente
-     * @return cliente
-     */
-    public Cliente getCliente() {
-        return cliente;
-    }
     
-    /**
-     * Establece el cliente
-     * @param cliente cliente que reserva
-     */
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public Reserva(){
+        
     }
-    
-    /** 
-     * Devuelve el local reservable
-     * @return local
-     */
+
     public Reservable getReservable() {
         return local;
     }
-    
-    /** 
-     * Establece el local reservable
-     * @param reservable si es bar o restaurante
-     */
-    public void setReservable(Reservable reservable) {
-        this.local = reservable;
-    }
-    
-    /** 
-     * Devuelve la fecha
-     * @return fecha
-     */
-    public LocalDate getFecha() {
+
+    public String getFecha() {
         return fecha;
     }
-    
-    /** 
-     * Establece la fecha
-     * @param fecha fecha de reserva
-     */
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-    
-    /** 
-     * Devuelve la hora
-     * @return hora
-     */
-    public LocalTime getHora() {
+
+    public String getHora() {
         return hora;
     }
-    
-    /** 
-     * Establece la hora
-     * @param hora hora de reserva
-     */
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
-    }
-    
-    /** 
-     * Devuelve el descuento
-     * @return descuento
-     */
-    public double getDescuento() {
-        return descuento;
-    }
-    
-    /** 
-     * Establece el descuento
-     * @param descuento descuento establecido
-     */
-    public void setDescuento(double descuento) {
-        this.descuento = descuento;
-    }
-    
-    
+        
     @Override
     public String toString() {
         return new String("El cliente " + cliente.getNick() + " tiene una reserva en " + local.getNombre() + " con fecha " + fecha + " " + hora + ".");
@@ -169,7 +118,31 @@ public class Reserva implements XMLRepresentable{
 
     @Override
     public String toXML() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Reserva.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(this, sw);
+
+            //Verify XML Content
+            String xmlContent = sw.toString();
+            System.out.println(xmlContent);
+            return xmlContent;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

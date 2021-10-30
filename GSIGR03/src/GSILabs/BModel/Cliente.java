@@ -8,9 +8,16 @@ package GSILabs.BModel;
 
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Set;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 /**
  * Clase para el Cliente
  * @author GR03
@@ -20,7 +27,9 @@ public class Cliente extends Usuario implements XMLRepresentable{
     
     /** Propiedades **/
     
+    @XmlAnyElement
     public Set<Review> reviews;     //Reviews escritas por el cliente
+    @XmlAnyElement
     public Set<Reserva> reservas;   //Reservas de los clientes
     
     /** Constructor
@@ -34,6 +43,10 @@ public class Cliente extends Usuario implements XMLRepresentable{
         reviews = new HashSet<>();
         reservas = new HashSet<>();
     }
+    
+    public Cliente(){
+        
+    }
 
     public String getNick() {
         return nick;
@@ -41,7 +54,32 @@ public class Cliente extends Usuario implements XMLRepresentable{
     
     @Override
     public String toXML() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Cliente.class);
+             
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+ 
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+ 
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+             
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(this , sw);
+             
+            //Verify XML Content
+            String xmlContent = sw.toString();
+            System.out.println( xmlContent );
+            return xmlContent;
+ 
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

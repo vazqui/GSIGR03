@@ -8,12 +8,19 @@ package GSILabs.BModel;
 
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.*;
 
+
+@XmlRootElement
 /**
  * Clase para el Usuario
  * @author GR03
@@ -37,6 +44,14 @@ public class Usuario implements XMLRepresentable{
         this.nick = nick;
         this.password = password;
         this.fechaNacimiento = fechaNacimiento;
+        
+    }
+    
+    /** Constructor
+     * 
+     */
+    public Usuario(){
+        
     }
 
     /**
@@ -63,7 +78,7 @@ public class Usuario implements XMLRepresentable{
             System.out.println("ERROR la fecha introducida no es correcta");
         }
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 3;
@@ -93,11 +108,42 @@ public class Usuario implements XMLRepresentable{
         return  nick;
     }
 
-    @Override
+    
     public String toXML() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try
+        {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Usuario.class);
+             
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+ 
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+ 
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+             
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(this , sw);
+             
+            //Verify XML Content
+            String xmlContent = sw.toString();
+            System.out.println( xmlContent );
+            return xmlContent;
+ 
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }    
     }
 
+    public static void main(String[] args) {
+        Usuario u = new Usuario("efseven2", "1234", "2012/12/01");
+        u.toXML();
+        
+    }
+    
     @Override
     public boolean saveToXML(File f) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -107,4 +153,6 @@ public class Usuario implements XMLRepresentable{
     public boolean saveToXML(String filePath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    
 }

@@ -9,11 +9,16 @@ package GSILabs.BModel;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
@@ -28,11 +33,8 @@ import org.xml.sax.SAXException;
  * @author GR03
  * @version 1.0
  */
+@XmlRootElement
 public class Local implements XMLRepresentable{
-
-    public static void main(String[] args) throws ParserConfigurationException, SAXException {
-        Local l = new Local("prueba.xml");
-    }
     
     /** Propiedades **/
     
@@ -52,6 +54,10 @@ public class Local implements XMLRepresentable{
         this.direccion = new Direccion(direccion);
         propietarios = new HashSet<>();
         reviews = new HashSet<>();
+    }
+    
+    public Local(){
+        
     }
     
     public Local(String XMLfile) throws ParserConfigurationException, SAXException{
@@ -161,7 +167,31 @@ public class Local implements XMLRepresentable{
 
     @Override
     public String toXML() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Local.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(this, sw);
+
+            //Verify XML Content
+            String xmlContent = sw.toString();
+            System.out.println(xmlContent);
+            return xmlContent;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
