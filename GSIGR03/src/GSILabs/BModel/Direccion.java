@@ -66,7 +66,6 @@ public class Direccion implements XMLRepresentable{
         
     }
     
-    /////////////////Ya existe el constructor (String)
     public Direccion(String xmlString) throws XMLParsingException{
         JAXBContext jaxbContext;
         
