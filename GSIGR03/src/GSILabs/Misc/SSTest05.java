@@ -17,7 +17,7 @@ public class SSTest05 {
     
     public static void main(String[] args) {
         
-        BussinessSystem system = new BussinessSystem();
+        BusinessSystem system = new BusinessSystem();
         
         File f = new File("ejemplo.ods");
         

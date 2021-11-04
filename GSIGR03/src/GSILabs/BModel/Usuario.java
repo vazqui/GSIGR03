@@ -6,8 +6,10 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 
 
@@ -47,12 +50,28 @@ public class Usuario implements XMLRepresentable{
         
     }
     
-    public Usuario(){
-        
+    public Usuario(){       
     }
-    
-    public Usuario(String xml){
+     
+    public Usuario(String xmlString) throws XMLParsingException{
+        JAXBContext jaxbContext;
         
+        try{
+            
+            jaxbContext = JAXBContext.newInstance(Usuario.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            
+            Usuario u = (Usuario) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+            
+            this.nick = u.nick;
+            this.password = u.password;
+            this.fechaNacimiento = u.fechaNacimiento;
+            
+        }
+        catch(JAXBException e){
+            throw new XMLParsingException("Fallo al leer el String");
+        }
     }
 
     /**

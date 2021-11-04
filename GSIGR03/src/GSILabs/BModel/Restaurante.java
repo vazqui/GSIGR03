@@ -6,46 +6,76 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Clase para el restaurante
+ *
  * @author GR03
  * @version 1.0
  */
-
 @XmlRootElement
-public class Restaurante extends Local implements Reservable, XMLRepresentable{
-    
-    /** Propiedades **/
-    
+public class Restaurante extends Local implements Reservable, XMLRepresentable {
+
+    /**
+     * Propiedades *
+     */
     public String preciomenu;                   //Precio del menú
     public String CapMaxComensalesTotales;      //Capacidad máxima de comensales totales
     public String CapMaxComensalesMesa;         //Capacidad máxima de comensales por mesa
 
-    /** Constructor
-     * 
+    /**
+     * Constructor
+     *
      * @param preciomenu precio del menú
      * @param CapMaxComensalesTotales capacidad máxima de comensales totales
      * @param CapMaxComensalesMesa capacidad máxima de comensales por mesa
      * @param nombre nombre del restaurante
      * @param direccion dirección del restaurante
      */
-    public Restaurante(String preciomenu, String CapMaxComensalesTotales, String CapMaxComensalesMesa, String nombre, String direccion) {
-        super(nombre, direccion);
+    public Restaurante(String preciomenu, String CapMaxComensalesTotales, String CapMaxComensalesMesa, String nombre, String direccion, String descripcion) {
+        super(nombre, direccion, descripcion);
         this.preciomenu = preciomenu;
         this.CapMaxComensalesTotales = CapMaxComensalesTotales;
         this.CapMaxComensalesMesa = CapMaxComensalesMesa;
-    } 
-    
-    public Restaurante(){}
-    
+    }
+
+    public Restaurante() {
+    }
+
+    public Restaurante(String xmlString) throws XMLParsingException {
+        super(" ", " ", " ");
+
+        JAXBContext jaxbContext;
+
+        try {
+
+            jaxbContext = JAXBContext.newInstance(Restaurante.class);
+
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+            Restaurante u = (Restaurante) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+
+            this.nombre = u.nombre;
+            this.direccion = u.direccion;
+            this.preciomenu = u.preciomenu;
+            this.CapMaxComensalesMesa = u.CapMaxComensalesMesa;
+            this.CapMaxComensalesTotales = u.CapMaxComensalesTotales;
+
+        } catch (JAXBException e) {
+            throw new XMLParsingException("Fallo al leer el String");
+        }
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -79,7 +109,6 @@ public class Restaurante extends Local implements Reservable, XMLRepresentable{
         }
     }
 
-    
     @Override
     public boolean saveToXML(File f) {
         try {
@@ -102,7 +131,7 @@ public class Restaurante extends Local implements Reservable, XMLRepresentable{
             return false;
         }
     }
-    
+
     @Override
     public boolean saveToXML(String filePath) {
         try {
@@ -125,4 +154,5 @@ public class Restaurante extends Local implements Reservable, XMLRepresentable{
             e.printStackTrace();
             return false;
         }
-    }}
+    }
+}

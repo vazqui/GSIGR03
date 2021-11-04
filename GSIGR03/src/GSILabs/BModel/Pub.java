@@ -35,8 +35,8 @@ public class Pub extends Local implements XMLRepresentable{
      * @param direccion dirección del pub
      */
     
-    public Pub(String HoraApertura, String HoraCierre, String nombre, String direccion) {
-        super(nombre, direccion);
+    public Pub(String HoraApertura, String HoraCierre, String nombre, String direccion, String descripcion) {
+        super(nombre, direccion, descripcion);
         this.HoraApertura = HoraApertura;
         this.HoraCierre = HoraCierre;
     }

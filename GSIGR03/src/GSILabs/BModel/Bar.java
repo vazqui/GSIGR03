@@ -55,6 +55,8 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
     
     public Bar(String xmlString) throws XMLParsingException{
         
+        super(" ", " ");
+        
         JAXBContext jaxbContext;
         
         try{
@@ -65,6 +67,9 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
             
             Bar bar = (Bar)jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
            
+            this.nombre = bar.nombre;
+            this.direccion = bar.direccion;
+            this.tags = bar.tags;
             
         }
         catch(JAXBException e){

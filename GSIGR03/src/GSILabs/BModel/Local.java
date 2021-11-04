@@ -52,9 +52,10 @@ public class Local implements XMLRepresentable {
      * @param nombre nombre del local
      * @param direccion dirección del local
      */
-    public Local(String nombre, String direccion) {
+    public Local(String nombre, String direccion, String descripcion) {
         this.nombre = nombre;
         this.direccion = new Direccion(direccion);
+        this.descripcion = descripcion;
         propietarios = new HashSet<>();
         reviews = new HashSet<>();
     }

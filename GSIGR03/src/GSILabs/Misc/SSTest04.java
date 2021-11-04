@@ -9,7 +9,7 @@ package GSILabs.Misc;
 
 
 import GSILabs.BModel.*;
-import GSILabs.BSystem.BussinessSystem;
+import GSILabs.BSystem.BusinessSystem;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
 public class SSTest04 {
 
     public static void main(String[] args) throws IOException {
-        BussinessSystem system = introduccionDatosEjemplo();
+        BusinessSystem system = introduccionDatosEjemplo();
         
         //Crea la tabla con los datos del array
         TableModel baresModel = obtenerLocales(system, "Bar");
@@ -53,7 +53,7 @@ public class SSTest04 {
      * Obtiene todos los locales segun su tipo de local
      * Salida: tableModel con los locales
      */
-    private static TableModel obtenerLocales(BussinessSystem system,String tipo){
+    private static TableModel obtenerLocales(BusinessSystem system,String tipo){
         Set<Local> locales = system.almacenamiento.locales;
         Object[][] matrizBar = new String[locales.size()][99];
         int i = 0;
@@ -99,9 +99,9 @@ public class SSTest04 {
      * Inserción de datos
      * Inserta datos de ejemplo dentro del sistem
      */
-    private static BussinessSystem introduccionDatosEjemplo() {
+    private static BusinessSystem introduccionDatosEjemplo() {
         /* Instancia de BussinessSystem*/
-        BussinessSystem system = new BussinessSystem();
+        BusinessSystem system = new BusinessSystem();
 
         /* Bares */
         Bar b1 = new Bar("Cañas", "Comunidad Foral de Navarra, Navarra, Calle Perez Goyena, 16");

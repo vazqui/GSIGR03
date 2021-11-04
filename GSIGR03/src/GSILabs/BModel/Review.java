@@ -6,13 +6,16 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -56,10 +59,31 @@ public class Review implements XMLRepresentable {
         }
     }
 
-    public Review(){
-        
+    public Review() {
+
     }
-    
+
+    public Review(String xmlString) throws XMLParsingException {
+        JAXBContext jaxbContext;
+
+        try {
+
+            jaxbContext = JAXBContext.newInstance(Review.class);
+
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+            Review u = (Review) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+
+            this.nickUsuario = u.nickUsuario;
+            this.comentario = u.comentario;
+            this.fecha = u.fecha;
+            this.local = u.local;
+
+        } catch (JAXBException e) {
+            throw new XMLParsingException("Fallo al leer el String");
+        }
+    }
+
     /**
      * Función para añadir una contestación a la review
      *
@@ -166,7 +190,7 @@ public class Review implements XMLRepresentable {
 
     @Override
     public boolean saveToXML(File f) {
-            try {
+        try {
             //Create JAXB Context
             JAXBContext jaxbContext = JAXBContext.newInstance(Review.class);
 
@@ -209,4 +233,5 @@ public class Review implements XMLRepresentable {
             e.printStackTrace();
             return false;
         }
-    }}
+    }
+}

@@ -17,7 +17,7 @@ import java.time.LocalTime;
 public class P01Tester {
 
     public static void main(String[] args) {
-        BussinessSystem system = new BussinessSystem();
+        BusinessSystem system = new BusinessSystem();
 
         /*
          * S1

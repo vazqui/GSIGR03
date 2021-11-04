@@ -7,6 +7,7 @@
 package GSILabs.BSystem;
 
 import GSILabs.BModel.*;
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
 import java.io.IOException;
@@ -30,13 +31,13 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
  * @version 1.0
  */
 @XmlRootElement
-public class BussinessSystem implements LeisureOffice, XMLRepresentable {
+public class BusinessSystem implements LeisureOffice, XMLRepresentable {
     
     /** Propiedades **/
     public BusinessData almacenamiento;
     
     /** Constructor **/
-    public BussinessSystem() {
+    public BusinessSystem() {
         this.almacenamiento = new BusinessData();
     }
    
@@ -722,7 +723,7 @@ public class BussinessSystem implements LeisureOffice, XMLRepresentable {
     public String toXML() {
         try {
             //Create JAXB Context
-            JAXBContext jaxbContext = JAXBContext.newInstance(BussinessSystem.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(BusinessSystem.class);
 
             //Create Marshaller
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -750,7 +751,7 @@ public class BussinessSystem implements LeisureOffice, XMLRepresentable {
     public boolean saveToXML(File f) {
         try {
             //Create JAXB Context
-            JAXBContext jaxbContext = JAXBContext.newInstance(BussinessSystem.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(BusinessSystem.class);
 
             //Create Marshaller
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -773,7 +774,7 @@ public class BussinessSystem implements LeisureOffice, XMLRepresentable {
     public boolean saveToXML(String filePath) {
         try {
             //Create JAXB Context
-            JAXBContext jaxbContext = JAXBContext.newInstance(BussinessSystem.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(BusinessSystem.class);
 
             //Create Marshaller
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -792,7 +793,5 @@ public class BussinessSystem implements LeisureOffice, XMLRepresentable {
             return false;
         }
     }
-    
-  
 
 }
