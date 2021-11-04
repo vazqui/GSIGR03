@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bussinessSystem>
+    <almacenamiento>
+        <usuarios>
+            <nick>efseven</nick>
+            <password>1234</password>
+            <fechaNacimiento>2001/12/22</fechaNacimiento>
+        </usuarios>
+        <usuarios>
+            <nick>efseven2</nick>
+            <password>1234</password>
+            <fechaNacimiento>2012/12/01</fechaNacimiento>
+        </usuarios>
+        <usuarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="propietario">
+            <nick>pe1</nick>
+            <password>1234</password>
+            <fechaNacimiento>10/02/1968</fechaNacimiento>
+        </usuarios>
+        <usuarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="propietario">
+            <nick>pe2</nick>
+            <password>1234</password>
+            <fechaNacimiento>11/02/1968</fechaNacimiento>
+        </usuarios>
+        <usuarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="propietario">
+            <nick>pe3</nick>
+            <password>1234</password>
+            <fechaNacimiento>12/02/1968</fechaNacimiento>
+        </usuarios>
+        <usuarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="propietario">
+            <nick>pe4</nick>
+            <password>1234</password>
+            <fechaNacimiento>13/02/1968</fechaNacimiento>
+        </usuarios>
+        <locales>
+            <nombre>Brujas</nombre>
+            <direccion>
+                <localidad>Comunidad Foral de Navarra</localidad>
+                <provincia>Navarra</provincia>
+                <calle>Calle Perez Goyena</calle>
+                <numero>16</numero>
+            </direccion>
+        </locales>
+        <reviews>
+            <tipoValoracion>0</tipoValoracion>
+            <tipoValoracion>1</tipoValoracion>
+            <tipoValoracion>2</tipoValoracion>
+            <tipoValoracion>3</tipoValoracion>
+            <tipoValoracion>4</tipoValoracion>
+            <tipoValoracion>5</tipoValoracion>
+            <nickUsuario>efseven2</nickUsuario>
+            <comentario>la comida estaba muy mala</comentario>
+            <respuesta>
+                <p>
+                    <nick>pe1</nick>
+                    <password>1234</password>
+                    <fechaNacimiento>10/02/1968</fechaNacimiento>
+                </p>
+                <respuesta>Eso es mentira</respuesta>
+            </respuesta>
+            <fecha/>
+        </reviews>
+        <reservas>
+            <usuario>
+                <nick>efseven2</nick>
+                <password>1234</password>
+                <fechaNacimiento>2001/12/01</fechaNacimiento>
+            </usuario>
+            <fecha>2021-11-04</fecha>
+            <hora>12:00</hora>
+            <descuento>0.0</descuento>
+            <local>
+                <nombre>Cañas</nombre>
+                <direccion>
+                    <localidad>Comunidad Foral de Navarra</localidad>
+                    <provincia>Navarra</provincia>
+                    <calle>Calle Perez Goyena</calle>
+                    <numero>16</numero>
+                </direccion>
+                <propietarios>
+                    <nick>pe1</nick>
+                    <password>1234</password>
+                    <fechaNacimiento>10/02/1968</fechaNacimiento>
+                </propietarios>
+                <propietarios>
+                    <nick>pe2</nick>
+                    <password>1234</password>
+                    <fechaNacimiento>11/02/1968</fechaNacimiento>
+                </propietarios>
+                <propietarios>
+                    <nick>pe3</nick>
+                    <password>1234</password>
+                    <fechaNacimiento>12/02/1968</fechaNacimiento>
+                </propietarios>
+            </local>
+        </reservas>
+    </almacenamiento>
+</bussinessSystem>

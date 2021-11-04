@@ -10,10 +10,15 @@ import GSILabs.BModel.*;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 import org.jopendocument.dom.spreadsheet.MutableCell;
 import org.jopendocument.dom.spreadsheet.Sheet;
 import org.jopendocument.dom.spreadsheet.SpreadSheet;
@@ -24,6 +29,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
  * @author GR03
  * @version 1.0
  */
+@XmlRootElement
 public class BussinessSystem implements LeisureOffice, XMLRepresentable {
     
     /** Propiedades **/
@@ -33,7 +39,8 @@ public class BussinessSystem implements LeisureOffice, XMLRepresentable {
     public BussinessSystem() {
         this.almacenamiento = new BusinessData();
     }
-    
+   
+     
     //**USUARIOS**//
     
     /**
@@ -713,20 +720,78 @@ public class BussinessSystem implements LeisureOffice, XMLRepresentable {
 
     @Override
     public String toXML() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(BussinessSystem.class);
 
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Print XML String to Console
+            StringWriter sw = new StringWriter();
+
+            //Write XML to StringWriter
+            jaxbMarshaller.marshal(this, sw);
+
+            //Verify XML Content
+            String xmlContent = sw.toString();
+            return xmlContent;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     @Override
     public boolean saveToXML(File f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(BussinessSystem.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean saveToXML(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(BussinessSystem.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            File f = new File(filePath);
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-    
-    
     
   
 

@@ -40,7 +40,7 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
      *
      * @param nombre nombre del bar
      * @param direccion dirección del bar
-    *
+     *
      */
     public Bar(String nombre, String direccion) {
         super(nombre, direccion);
@@ -79,7 +79,6 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
 
             //Verify XML Content
             String xmlContent = sw.toString();
-            System.out.println(xmlContent);
             return xmlContent;
 
         } catch (JAXBException e) {
@@ -87,15 +86,52 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
             return null;
         }
     }
-    
+
     @Override
     public boolean saveToXML(File f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Bar.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean saveToXML(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Bar.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            File f = new File(filePath);
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

@@ -27,101 +27,104 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
 /**
  * Clase para el Local
+ *
  * @author GR03
  * @version 1.0
  */
 @XmlRootElement
-public class Local implements XMLRepresentable{
-    
-    /** Propiedades **/
-    
+public class Local implements XMLRepresentable {
+
+    /**
+     * Propiedades *
+     */
     public String nombre;                          //Nombre del local
     public String descripcion;                     //Breve descripción del local, no más de 300 carácteres
-    
+
     public Direccion direccion;                    //Dirección del local
     public Set<Propietario> propietarios;          //Lista con los propietarios que tiene el local
     public Set<Review> reviews;                    //Lista con las reviews
-    /** Constructor
-     * 
+
+    /**
+     * Constructor
+     *
      * @param nombre nombre del local
      * @param direccion dirección del local
-    */
+     */
     public Local(String nombre, String direccion) {
         this.nombre = nombre;
         this.direccion = new Direccion(direccion);
         propietarios = new HashSet<>();
         reviews = new HashSet<>();
     }
-    
-    public Local(){
-        
+
+    public Local() {
+
     }
-    
-    public Local(String XMLfile) throws ParserConfigurationException, SAXException{
+
+    public Local(String XMLfile) throws ParserConfigurationException, SAXException {
         Document document;
         try {
             document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLfile);
             document.getDocumentElement().normalize();
-            
+
             NodeList lista_locales = document.getElementsByTagName("local");
             int i = 0;
-            while (i < lista_locales.getLength()){
+            while (i < lista_locales.getLength()) {
                 Node node_local = lista_locales.item(i);
                 if (node_local.getNodeType() == Node.ELEMENT_NODE) {
-                     Element element = (Element) node_local;
-                     this.nombre = element.getAttribute("nombre");
-                     this.descripcion = element.getAttribute("descripcion");
-                  
+                    Element element = (Element) node_local;
+                    this.nombre = element.getAttribute("nombre");
+                    this.descripcion = element.getAttribute("descripcion");
+
                     i++;
                 }
-                
+
             }
             System.out.println(nombre + descripcion);
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
-        
+
     }
-    
-   
-    /** 
+
+    /**
      * Función para comprobar la longitud de la descripción
+     *
      * @param descripcion descripción del local
      */
-        
-    public void ComprobarDescripcion(String descripcion){
-        if (descripcion.length() > 300){
+    public void ComprobarDescripcion(String descripcion) {
+        if (descripcion.length() > 300) {
             System.out.println("La descripcion es demasiado larga, tiene mas de 300 caracteres");
-        }else{
+        } else {
             System.out.println("Descripción guardada");
         }
     }
-    
-    
+
     /**
      * Devuelve una lista con los propietarios del local
+     *
      * @return propietarios
      */
     public Set<Propietario> getPropietarios() {
         return propietarios;
     }
-    
+
     /**
      * Añade un propietario a la lista de propietarios del local
-     * @param p propietario que se va a añadir 
-     * @return  true
+     *
+     * @param p propietario que se va a añadir
+     * @return true
      */
-    public boolean addPropietario(Propietario p){
-        
-        if(propietarios.size() > 2){
+    public boolean addPropietario(Propietario p) {
+
+        if (propietarios.size() > 2) {
             System.out.println("No se puede añadir propietario. Numero maximo ya alcanzado.");
             return false;
-        }else{
+        } else {
             propietarios.add(p);
             return true;
         }
@@ -130,13 +133,14 @@ public class Local implements XMLRepresentable{
     public String getNombre() {
         return nombre;
     }
-    
+
     /**
      * Elimina un propietario de la lista de propietarios del local
-     * @param p propietario que se va a eliminar 
+     *
+     * @param p propietario que se va a eliminar
      */
-    public void eliminarPropietario(Propietario p){
-        if(propietarios.isEmpty()){
+    public void eliminarPropietario(Propietario p) {
+        if (propietarios.isEmpty()) {
             System.out.println("No se puede eliminar propietario. La lista esta vacia");
         }
     }
@@ -185,7 +189,6 @@ public class Local implements XMLRepresentable{
 
             //Verify XML Content
             String xmlContent = sw.toString();
-            System.out.println(xmlContent);
             return xmlContent;
 
         } catch (JAXBException e) {
@@ -196,16 +199,49 @@ public class Local implements XMLRepresentable{
 
     @Override
     public boolean saveToXML(File f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Local.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean saveToXML(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Local.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            File f = new File(filePath);
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-   
-    
-    
-    
 }

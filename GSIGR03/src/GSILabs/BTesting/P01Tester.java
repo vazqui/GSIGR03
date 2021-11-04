@@ -123,5 +123,7 @@ public class P01Tester {
         
         Review r2 = new Review("efseven2", "la comida estaba rica", b1);
         system.nuevaReview(r2);
+        
+        system.saveToXML("local.xml");
     }
 }

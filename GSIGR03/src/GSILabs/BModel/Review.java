@@ -14,6 +14,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Clase para la Review
@@ -31,6 +32,7 @@ public class Review implements XMLRepresentable {
     final public int[] tipoValoracion = {0, 1, 2, 3, 4, 5};     //Valoración del local
     public String nickUsuario;                                         //Nick del usuario que escribe la review 
     public String comentario;                                          //Comentario describiendo la opinión del usuario
+    @XmlTransient
     public Local local;//Convertir esta direccion a un Local       //Local al que se le está escribiendo el comentario
     public Contestacion respuesta;                                     //Respuesta del propietrio a la review
     public LocalDate fecha;
@@ -164,11 +166,47 @@ public class Review implements XMLRepresentable {
 
     @Override
     public boolean saveToXML(File f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Review.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean saveToXML(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-}
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Review.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            File f = new File(filePath);
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }}

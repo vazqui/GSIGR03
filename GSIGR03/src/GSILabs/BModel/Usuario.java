@@ -47,10 +47,11 @@ public class Usuario implements XMLRepresentable{
         
     }
     
-    /** Constructor
-     * 
-     */
     public Usuario(){
+        
+    }
+    
+    public Usuario(String xml){
         
     }
 
@@ -129,7 +130,6 @@ public class Usuario implements XMLRepresentable{
              
             //Verify XML Content
             String xmlContent = sw.toString();
-            System.out.println( xmlContent );
             return xmlContent;
  
         } catch (JAXBException e) {
@@ -137,21 +137,52 @@ public class Usuario implements XMLRepresentable{
             return null;
         }    
     }
-
-    public static void main(String[] args) {
-        Usuario u = new Usuario("efseven2", "1234", "2012/12/01");
-        u.toXML();
-        
-    }
     
     @Override
     public boolean saveToXML(File f) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Usuario.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean saveToXML(String filePath) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            //Create JAXB Context
+            JAXBContext jaxbContext = JAXBContext.newInstance(Usuario.class);
+
+            //Create Marshaller
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+            //Required formatting??
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+
+            //Store XML to File
+            File f = new File(filePath);
+            jaxbMarshaller.marshal(this, f);
+
+            return true;
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     
