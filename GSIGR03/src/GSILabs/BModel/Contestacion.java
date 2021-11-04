@@ -6,12 +6,15 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -53,6 +56,35 @@ public class Contestacion implements XMLRepresentable {
 
     public Contestacion() {
 
+    }
+    
+    public Contestacion(String xmlString) throws XMLParsingException{
+        
+        
+        JAXBContext jaxbContext;
+        
+        try{
+            
+            jaxbContext = JAXBContext.newInstance(Bar.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            
+            Contestacion contestacion = (Contestacion)jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+           
+            if (contestacion.p.locales.contains(contestacion.r.local)) {
+                this.p = contestacion.p;
+                this.r = contestacion.r;
+                this.respuesta = contestacion.respuesta;
+            } else {
+                System.out.println("No se puede crear la contestacion. El local no pertenece al propietario.");
+            }
+            
+            
+        }
+        catch(JAXBException e){
+            throw new XMLParsingException("Fallo al leer el String");
+        }
+        
     }
 
     @Override

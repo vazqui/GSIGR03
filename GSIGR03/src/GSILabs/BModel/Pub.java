@@ -6,12 +6,15 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -42,6 +45,34 @@ public class Pub extends Local implements XMLRepresentable{
     }
     
     public Pub(){
+    }
+    
+    public Pub(String xmlString) throws XMLParsingException{
+        
+        super("", "", "");
+        
+        JAXBContext jaxbContext;
+        
+        try{
+            
+            jaxbContext = JAXBContext.newInstance(Cliente.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            
+            Pub pub = (Pub) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+            
+            this.HoraApertura = pub.HoraApertura;
+            this.HoraCierre = pub.HoraCierre;
+            this.descripcion = pub.descripcion;
+            this.direccion = pub.direccion;
+            this.nombre = pub.nombre;
+            this.propietarios = pub.propietarios;
+            this.reviews = pub.reviews;
+            
+        }
+        catch(JAXBException e){
+            throw new XMLParsingException("Fallo al leer el String");
+        }
     }
     
     public String getNombre() {

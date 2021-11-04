@@ -6,13 +6,16 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Objects;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -35,7 +38,7 @@ public class Direccion implements XMLRepresentable{
     /** Constructor
      * 
      * @param direccion dirección del local
-     */
+     
     public Direccion(String direccion) {
         String[] partes = direccion.split(", ");
         localidad = partes[0];
@@ -43,6 +46,7 @@ public class Direccion implements XMLRepresentable{
         calle = partes[2];
         numero = partes[3];
     }
+    */
     
     /** Constructor
      * 
@@ -62,7 +66,29 @@ public class Direccion implements XMLRepresentable{
         
     }
     
-    
+    /////////////////Ya existe el constructor (String)
+    public Direccion(String xmlString) throws XMLParsingException{
+        JAXBContext jaxbContext;
+        
+        try{
+            
+            jaxbContext = JAXBContext.newInstance(Cliente.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            
+            Direccion direccion = (Direccion) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+
+            this.calle = direccion.calle;
+            this.localidad = direccion.localidad;
+            this.numero = direccion.numero;
+            this.provincia = direccion.provincia;
+
+            
+        }
+        catch(JAXBException e){
+            throw new XMLParsingException("Fallo al leer el String");
+        }
+    }
     @Override
     public int hashCode(){
         int hash = 7;

@@ -54,6 +54,9 @@ public class Cliente extends Usuario implements XMLRepresentable {
     }
      
     public Cliente(String xmlString) throws XMLParsingException{
+        
+        super("", "", "");
+        
         JAXBContext jaxbContext;
         
         try{
@@ -69,6 +72,7 @@ public class Cliente extends Usuario implements XMLRepresentable {
             this.fechaNacimiento = u.fechaNacimiento;
             this.reviews = u.reviews;
             this.reservas = u.reservas;
+            
             
         }
         catch(JAXBException e){
