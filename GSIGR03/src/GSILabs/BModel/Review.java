@@ -16,6 +16,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -26,7 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
  * @version 1.0
  */
 @XmlRootElement
-
 public class Review implements XMLRepresentable {
 
     /**
@@ -38,7 +39,7 @@ public class Review implements XMLRepresentable {
     @XmlTransient
     public Local local;//Convertir esta direccion a un Local       //Local al que se le está escribiendo el comentario
     public Contestacion respuesta;                                     //Respuesta del propietrio a la review
-    public LocalDate fecha;
+    public String fecha;
 
     /**
      * Constructor
@@ -52,7 +53,7 @@ public class Review implements XMLRepresentable {
         if (comprobarReview(comentario)) {
             this.nickUsuario = nickUsuario;
             this.comentario = comentario;
-            this.fecha = LocalDate.now();
+            this.fecha = LocalDate.now().toString();
             this.local = local;
         } else {
             System.out.println("No se puede crear la review. Numero maximo de caracteres alcanzado.");

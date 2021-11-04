@@ -44,8 +44,8 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
      * @param direccion dirección del bar
      *
      */
-    public Bar(String nombre, String direccion) {
-        super(nombre, direccion);
+    public Bar(String nombre, String direccion, String descripcion) {
+        super(nombre, direccion, descripcion);
         tags = new ArrayList<>();
     }
 
@@ -55,7 +55,7 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
     
     public Bar(String xmlString) throws XMLParsingException{
         
-        super(" ", " ");
+        super(" ", " ", " ");
         
         JAXBContext jaxbContext;
         

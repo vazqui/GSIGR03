@@ -149,13 +149,13 @@ public class BusinessSystem implements LeisureOffice, XMLRepresentable {
         try{
             Usuario usuario = obtenerUsuario(r.nickUsuario);
             //Comprobamos que existe el usuario y que no tenga una review en ese local en la misma fecha
-            if(existeNick(r.getNickUsuario()) && !existeRewiew(usuario, r.local, r.fecha)){
+            if(existeNick(r.getNickUsuario()) && !existeRewiew(usuario, r.local, LocalDate.parse(r.fecha))){
                 almacenamiento.reviews.add(r);
                 System.out.println("Rewiew añadida correctamente.");
                 return true;
             }else{
                 System.out.println("No se puede añadir la rewiew.");
-                if(existeRewiew(usuario, r.local, r.fecha)){
+                if(existeRewiew(usuario, r.local, LocalDate.parse(r.fecha))){
                     System.out.println("Ya existe una rewiew para esta fecha");
                 }
                 return false;
@@ -192,7 +192,7 @@ public class BusinessSystem implements LeisureOffice, XMLRepresentable {
            for(Review review : almacenamiento.reviews){
                if(u.nick.contentEquals(review.getNickUsuario()) &&
                     l.equals(review.local) &&
-                    ld.equals(review.fecha))
+                    ld.toString().equals(review.fecha))
                {
                    //System.out.println("El usuario " + u.nick +" dejó una review en el local " + l.getNombre() + " con fecha " + ld);
                    //Este log resulta confuso a la hora de tratar reviews, por eso se deja comentado
@@ -219,14 +219,14 @@ public class BusinessSystem implements LeisureOffice, XMLRepresentable {
         try {
             Usuario user = obtenerUsuario(r.nickUsuario);
             //Comprobamos que exista la review y que  no tenga ya una contestacion
-            if (existeRewiew(user, r.local, r.fecha) && !tieneContestacion(r)) {
+            if (existeRewiew(user, r.local, LocalDate.parse(r.fecha)) && !tieneContestacion(r)) {
                 r.añadirContestacion(c);
                 System.out.println("Contestacion creada.");
                 System.out.println("El propietario " + c.p.nick + " ha contestado a una review de " + r.nickUsuario +" en el local " + r.local.getNombre() + " con fecha " + r.fecha);
                 return true;
             } else {
                 System.out.println("ERROR al crear respuesta.");
-                if(!existeRewiew(user, r.local, r.fecha )){
+                if(!existeRewiew(user, r.local, LocalDate.parse(r.fecha) )){
                     System.out.println("La review a la que se quiere contestar no existe.");
                 }
                 if(tieneContestacion(r)){
@@ -411,7 +411,7 @@ public class BusinessSystem implements LeisureOffice, XMLRepresentable {
                  */
                 
                 //Creamos el bar
-                Bar bar = new Bar(nombre, direccion);
+                Bar bar = new Bar(nombre, direccion, "Hay que solucionarlo");
                 List<String> tags = new ArrayList<String>();
 
                 //Leemos tags (? columnas)
