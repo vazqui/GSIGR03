@@ -6,8 +6,10 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,26 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
 
     public Bar() {
 
+    }
+    
+    public Bar(String xmlString) throws XMLParsingException{
+        
+        JAXBContext jaxbContext;
+        
+        try{
+            
+            jaxbContext = JAXBContext.newInstance(Bar.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            
+            Bar bar = (Bar)jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+           
+            
+        }
+        catch(JAXBException e){
+            throw new XMLParsingException("Fallo al leer el String");
+        }
+        
     }
 
     public void setTags(List<String> tags) {
