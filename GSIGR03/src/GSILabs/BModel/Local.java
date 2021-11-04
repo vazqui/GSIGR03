@@ -6,9 +6,11 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,6 +20,7 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -54,7 +57,12 @@ public class Local implements XMLRepresentable {
      */
     public Local(String nombre, String direccion, String descripcion) {
         this.nombre = nombre;
-        this.direccion = new Direccion(direccion);
+        String[] partes = direccion.split(", ");
+        String localidad = partes[0];
+        String provincia = partes[1];
+        String calle = partes[2];
+        String numero = partes[3];
+        this.direccion = new Direccion(localidad, provincia, calle, numero);
         this.descripcion = descripcion;
         propietarios = new HashSet<>();
         reviews = new HashSet<>();
@@ -64,32 +72,27 @@ public class Local implements XMLRepresentable {
 
     }
 
-    public Local(String XMLfile) throws ParserConfigurationException, SAXException {
-        Document document;
-        try {
-            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XMLfile);
-            document.getDocumentElement().normalize();
-
-            NodeList lista_locales = document.getElementsByTagName("local");
-            int i = 0;
-            while (i < lista_locales.getLength()) {
-                Node node_local = lista_locales.item(i);
-                if (node_local.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node_local;
-                    this.nombre = element.getAttribute("nombre");
-                    this.descripcion = element.getAttribute("descripcion");
-
-                    i++;
-                }
-
-            }
-            System.out.println(nombre + descripcion);
-
-        } catch (IOException ex) {
-            Logger.getLogger(Local.class.getName()).log(Level.SEVERE, null, ex);
-
+    public Local(String xmlString) throws XMLParsingException{
+        JAXBContext jaxbContext;
+        
+        try{
+            
+            jaxbContext = JAXBContext.newInstance(Cliente.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            
+            Local local = (Local) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+            
+            this.descripcion = local.descripcion;
+            this.direccion = local.direccion;
+            this.nombre = local.nombre;
+            this.propietarios = local.propietarios;
+            this.reviews = local.reviews;
+            
         }
-
+        catch(JAXBException e){
+            throw new XMLParsingException("Fallo al leer el String");
+        }
     }
 
     /**

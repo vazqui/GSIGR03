@@ -70,6 +70,10 @@ public class Bar extends Local implements Reservable, XMLRepresentable {
             this.nombre = bar.nombre;
             this.direccion = bar.direccion;
             this.tags = bar.tags;
+            this.descripcion = bar.descripcion;
+            this.propietarios = bar.propietarios;
+            this.reviews = bar.reviews;
+            
             
         }
         catch(JAXBException e){

@@ -6,14 +6,17 @@
  */
 package GSILabs.BModel;
 
+import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -44,6 +47,28 @@ public class Propietario extends Usuario implements XMLRepresentable {
 
     public Propietario(){
         
+    }
+    
+    public Propietario(String xmlString) throws XMLParsingException{
+        JAXBContext jaxbContext;
+        
+        try{
+            
+            jaxbContext = JAXBContext.newInstance(Cliente.class);
+            
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            
+            Propietario prop = (Propietario) jaxbUnmarshaller.unmarshal(new StringReader(xmlString));
+            
+            this.fechaNacimiento = prop.fechaNacimiento;
+            this.locales = prop.locales;
+            this.nick = prop.nick;
+            this.password = prop.password;
+            
+        }
+        catch(JAXBException e){
+            throw new XMLParsingException("Fallo al leer el String");
+        }
     }
     
     /**
