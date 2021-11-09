@@ -13,7 +13,6 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -21,8 +20,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlTransient;
 
 /*
  * La Reserva se realiza para un Cliente, pudiendo reservar un Bar o Restaurante
@@ -53,13 +51,11 @@ public class Reserva implements XMLRepresentable {
     /**
      * Propiedades *
      */
-    @XmlAnyElement
-    public Cliente cliente;            //Cliente
+    public Usuario cliente;            //Cliente
     public String fecha;            //Fecha
     public String hora;             //Hora
     public double descuento;           //Descuento
-    @XmlElement(type = Local.class)
-    public Reservable local;           //Local
+    public Local local;           //Local
 
     //En reservable tendremos una clase que puede ser Bar o Restaurante
     /**
@@ -74,7 +70,7 @@ public class Reserva implements XMLRepresentable {
         this.cliente = cliente;
         this.fecha = fecha.toString();
         this.hora = hora.toString();
-        this.local = reservable;
+        this.local = (Local) reservable;
         this.descuento = 0.00;
 
     }
@@ -92,7 +88,7 @@ public class Reserva implements XMLRepresentable {
         this.cliente = cliente;
         this.fecha = fecha.toString();
         this.hora = hora.toString();
-        this.local = reservable;
+        this.local = (Local) reservable;
         this.descuento = descuento;
 
     }
@@ -124,7 +120,7 @@ public class Reserva implements XMLRepresentable {
     }
 
     public Reservable getReservable() {
-        return local;
+        return (Reservable) local;
     }
 
     public String getFecha() {
@@ -137,7 +133,7 @@ public class Reserva implements XMLRepresentable {
 
     @Override
     public String toString() {
-        return new String("El cliente " + cliente.getNick() + " tiene una reserva en " + local.getNombre() + " con fecha " + fecha + " " + hora + ".");
+        return new String("El cliente " + cliente.nick + " tiene una reserva en " + local.getNombre() + " con fecha " + fecha + " " + hora + ".");
     }
 
     @Override

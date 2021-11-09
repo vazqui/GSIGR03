@@ -7,7 +7,6 @@
 package GSILabs.BSystem;
 
 import GSILabs.BModel.*;
-import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +18,7 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.jopendocument.dom.spreadsheet.MutableCell;
 import org.jopendocument.dom.spreadsheet.Sheet;
@@ -151,6 +151,10 @@ public class BusinessSystem implements LeisureOffice, XMLRepresentable {
             //Comprobamos que existe el usuario y que no tenga una review en ese local en la misma fecha
             if(existeNick(r.getNickUsuario()) && !existeRewiew(usuario, r.local, LocalDate.parse(r.fecha))){
                 almacenamiento.reviews.add(r);
+                for (Local l : almacenamiento.locales) {
+                    l.equals(r.local);
+                    l.reviews.add(r);
+                }
                 System.out.println("Rewiew añadida correctamente.");
                 return true;
             }else{
@@ -411,7 +415,7 @@ public class BusinessSystem implements LeisureOffice, XMLRepresentable {
                  */
                 
                 //Creamos el bar
-                Bar bar = new Bar(nombre, direccion, "Hay que solucionarlo");
+                Bar bar = new Bar(nombre, direccion, "Muy malo y bueno");
                 List<String> tags = new ArrayList<String>();
 
                 //Leemos tags (? columnas)
@@ -791,6 +795,18 @@ public class BusinessSystem implements LeisureOffice, XMLRepresentable {
         } catch (JAXBException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+    
+    public static BusinessSystem parseXMLFile(File f) {
+        try{
+             JAXBContext jaxbContext = JAXBContext.newInstance(BusinessSystem.class);
+             Unmarshaller mars = jaxbContext.createUnmarshaller();
+             BusinessSystem almacenamiento = (BusinessSystem)mars.unmarshal(f);
+             return almacenamiento;
+        }catch(JAXBException e){
+            System.out.println(e);
+            return null;
         }
     }
 

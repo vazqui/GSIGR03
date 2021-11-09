@@ -107,7 +107,6 @@ public class Contestacion implements XMLRepresentable {
 
             //Verify XML Content
             String xmlContent = sw.toString();
-            System.out.println(xmlContent);
             return xmlContent;
 
         } catch (JAXBException e) {

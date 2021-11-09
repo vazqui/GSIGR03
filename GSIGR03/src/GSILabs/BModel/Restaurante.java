@@ -100,7 +100,6 @@ public class Restaurante extends Local implements Reservable, XMLRepresentable {
 
             //Verify XML Content
             String xmlContent = sw.toString();
-            System.out.println(xmlContent);
             return xmlContent;
 
         } catch (JAXBException e) {

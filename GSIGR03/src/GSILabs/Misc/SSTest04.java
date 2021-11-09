@@ -104,20 +104,20 @@ public class SSTest04 {
         BusinessSystem system = new BusinessSystem();
 
         /* Bares */
-        Bar b1 = new Bar("Cañas", "Comunidad Foral de Navarra, Navarra, Calle Perez Goyena, 16");
+        Bar b1 = new Bar("Cañas", "Comunidad Foral de Navarra, Navarra, Calle Perez Goyena, 16", "Muy malo y bueno");
         b1.tags.add("calamares");
         b1.tags.add("tarta");
         b1.tags.add("chuleton");
         system.nuevoLocal(b1);
-        Bar b2 = new Bar("Erreleku", "Comunidad Foral de Navarra, Navarra, Cordovilla, 45");
+        Bar b2 = new Bar("Erreleku", "Comunidad Foral de Navarra, Navarra, Cordovilla, 45", "Muy malo y bueno");
         b2.tags.add("ensalada");
         b2.tags.add("ventresca con aceitillo");
         b2.tags.add("butifarra");
         system.nuevoLocal(b2);
-        Bar b3 = new Bar("Aintzane", "Comunidad Foral de Navarra, Navarra, Barañain, 2");
+        Bar b3 = new Bar("Aintzane", "Comunidad Foral de Navarra, Navarra, Barañain, 2", "Muy malo y bueno");
         b3.tags.add("fabada");
         system.nuevoLocal(b3);
-        Bar b4 = new Bar("Goñi", "Comunidad Foral de Navarra, Navarra, Beriain, 32");
+        Bar b4 = new Bar("Goñi", "Comunidad Foral de Navarra, Navarra, Beriain, 32", "Muy malo y bueno");
         b4.tags.add("caravinero fresco del cantabrico");
         b4.tags.add("pulpo gallego con patatas panaderas");
         b4.tags.add("confit de conejo con romero y tomillo");
@@ -126,21 +126,21 @@ public class SSTest04 {
         system.nuevoLocal(b4);
 
         /* Restaurantes */
-        Restaurante r1 = new Restaurante("18", "50", "5", "Goiko", "Comunidad Foral de Navarra, Navarra, Paseo Sarasate, 1");
+        Restaurante r1 = new Restaurante("18", "50", "5", "Goiko", "Comunidad Foral de Navarra, Navarra, Paseo Sarasate, 1", "Muy malo y bueno");
         system.nuevoLocal(r1);
-        Restaurante r2 = new Restaurante("13", "20", "5", "Bodeguita", "Comunidad Foral de Navarra, Navarra, Calle mayor, 89");
+        Restaurante r2 = new Restaurante("13", "20", "5", "Bodeguita", "Comunidad Foral de Navarra, Navarra, Calle mayor, 89", "Muy malo y bueno");
         system.nuevoLocal(r2);
-        Restaurante r3 = new Restaurante("20", "100", "10", "Asador mutiloa", "Comunidad Foral de Navarra, Navarra, Zizur, 26");
+        Restaurante r3 = new Restaurante("20", "100", "10", "Asador mutiloa", "Comunidad Foral de Navarra, Navarra, Zizur, 26", "Muy malo y bueno");
         system.nuevoLocal(r3);
 
         /* Pubs */
-        Pub p1 = new Pub("20:00", "05:00", "Kaixo", "Comunidad Foral de Navarra, Navarra, Calle almendra, 3");
+        Pub p1 = new Pub("20:00", "05:00", "Kaixo", "Comunidad Foral de Navarra, Navarra, Calle almendra, 3", "Muy malo y bueno");
         system.nuevoLocal(p1);
-        Pub p2 = new Pub("15:00", "24:00", "Irish", "Comunidad Foral de Navarra, Navarra, Esquiroz, 54");
+        Pub p2 = new Pub("15:00", "24:00", "Irish", "Comunidad Foral de Navarra, Navarra, Esquiroz, 54", "Muy malo y bueno");
         system.nuevoLocal(p2);
-        Pub p3 = new Pub("24:00", "07:00", "Canalla", "Comunidad Foral de Navarra, Navarra, Calle extintor, 45");
+        Pub p3 = new Pub("24:00", "07:00", "Canalla", "Comunidad Foral de Navarra, Navarra, Calle extintor, 45" , "Muy malo y bueno");
         system.nuevoLocal(p3);
-        Pub p4 = new Pub("17:00", "22:00", "La Esquina", "Comunidad Foral de Navarra, Navarra, PLaza del castillo, 69");
+        Pub p4 = new Pub("17:00", "22:00", "La Esquina", "Comunidad Foral de Navarra, Navarra, PLaza del castillo, 69", "Muy malo y bueno");
         system.nuevoLocal(p4);
 
         /* Propietarios */

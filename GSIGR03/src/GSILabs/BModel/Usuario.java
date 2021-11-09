@@ -52,7 +52,12 @@ public class Usuario implements XMLRepresentable{
     
     public Usuario(){       
     }
-     
+    
+    /** Constructor
+     * 
+     * @param xmlString String xml con la informacion del objeto a instanciar
+     * @throws XMLParsingException 
+     */
     public Usuario(String xmlString) throws XMLParsingException{
         JAXBContext jaxbContext;
         
