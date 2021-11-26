@@ -9,6 +9,7 @@ package GSILabs.BModel;
 import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
@@ -28,12 +29,12 @@ import javax.xml.bind.annotation.XmlTransient;
  * @version 1.0
  */
 @XmlRootElement
-public class Review implements XMLRepresentable {
+public class Review implements XMLRepresentable, Serializable {
 
     /**
      * Propiedades *
      */
-    final public int[] tipoValoracion = {0, 1, 2, 3, 4, 5};     //Valoración del local
+    public int valoracion ;     //Valoración del local
     public String nickUsuario;                                         //Nick del usuario que escribe la review 
     public String comentario;                                          //Comentario describiendo la opinión del usuario
     @XmlTransient
@@ -131,20 +132,6 @@ public class Review implements XMLRepresentable {
         return local;
     }
 
-    /**
-     * Obtiene la valoración del local
-     *
-     * @param i valoración del local
-     * @return la valoracion
-     */
-    public int getValoracion(int i) {
-        if (i >= 0 && i <= 5) {
-            return tipoValoracion[i];
-        } else {
-            System.out.println("ERROR valoración debe ser entre 0 y 5");
-            return -1;
-        }
-    }
 
     /**
      * Comprueba si la contestación se puede realizar
@@ -233,5 +220,12 @@ public class Review implements XMLRepresentable {
             e.printStackTrace();
             return false;
         }
+    }
+    public int getTipoValoracion() {
+        return valoracion;
+    }
+
+    public void setTipoValoracion(int tipoValoracion) {
+        this.valoracion = tipoValoracion;
     }
 }

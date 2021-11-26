@@ -57,10 +57,10 @@ public class PublicBusinessSystem extends BusinessSystem implements ClientGatewa
     public Bar mejorBar(String ciudad) throws RemoteException {
         Bar maximoBar = null;
         for (Local local: almacenamiento.locales){
-            int maximo = 0;
+            float maximo = 0;
             if (local.getClass().equals(Bar.class) && local.direccion.localidad.equals(ciudad)){
                 if (local.reviews.size() != 0){
-                    int media = 0;
+                    float media = 0;
                     int i = 0;
                     for (Review review: local.reviews){
                         media = media + review.valoracion;

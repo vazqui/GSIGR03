@@ -9,6 +9,7 @@ package GSILabs.BModel;
 import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDate;
@@ -46,7 +47,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 //    @XmlJavaTypeAdapter(AnyTypeAdapter.class)
 
-public class Reserva implements XMLRepresentable {
+public class Reserva implements XMLRepresentable, Serializable {
 
     /**
      * Propiedades *

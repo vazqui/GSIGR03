@@ -9,6 +9,7 @@ package GSILabs.BModel;
 import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.Objects;
@@ -26,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 
-public class Direccion implements XMLRepresentable{
+public class Direccion implements XMLRepresentable, Serializable{
     
     /** Propiedades **/
     

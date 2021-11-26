@@ -10,6 +10,7 @@ import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashSet;
@@ -37,7 +38,7 @@ import org.xml.sax.SAXException;
  * @version 1.0
  */
 @XmlRootElement
-public class Local implements XMLRepresentable {
+public class Local implements XMLRepresentable, Serializable {
 
     /**
      * Propiedades *

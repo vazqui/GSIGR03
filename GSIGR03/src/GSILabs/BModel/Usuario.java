@@ -9,6 +9,7 @@ package GSILabs.BModel;
 import GSILabs.persistence.XMLParsingException;
 import GSILabs.serializable.XMLRepresentable;
 import java.io.File;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.text.ParseException;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.*;
  * @author GR03
  * @version 1.0
  */
-public class Usuario implements XMLRepresentable{
+public class Usuario implements XMLRepresentable, Serializable{
     
     /** Propiedades **/
     
